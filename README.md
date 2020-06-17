@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Macro303/The-Pensieve/master/logo.png" align="left" width="128" height="128" alt="The Pensieve Logo"/>
+<img src="https://raw.githubusercontent.com/Macro303/The-Pensieve/main/logo.png" align="left" width="128" height="128" alt="The Pensieve Logo"/>
 
 # The Pensieve - Discord Bot
 [![Version](https://img.shields.io/github/tag-pre/Macro303/The-Pensieve.svg?label=version&style=flat-square)](https://github.com/Macro303/The-Pensieve/releases)
