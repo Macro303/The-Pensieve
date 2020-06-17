@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 from enum import Enum
+
 from pony.orm.dbapiprovider import StrConverter
+
 
 class EnumConverter(StrConverter):
     def validate(self, val, obj=None):

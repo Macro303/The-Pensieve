@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 import logging
+
+from Data.Database import Foundable, Threat
 from Logger import init_logger
 from pony.orm import db_session
-from Data.Database import Foundable, Threat
 
 LOGGER = logging.getLogger(__name__)
+
 
 @db_session
 def main():
     create_foundables()
+
 
 def create_foundables():
     registry = {
@@ -456,6 +459,7 @@ def create_foundables():
             for name, threat in foundables.items():
                 foundable = Foundable.get_or_create(family=family, page=page, name=name, threat=threat)
                 LOGGER.info(foundable)
+
 
 if __name__ == '__main__':
     init_logger('The-Pensieve_Data')

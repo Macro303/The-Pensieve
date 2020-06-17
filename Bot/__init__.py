@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 import logging
 from pathlib import Path
-import re
-from typing import List
 
-import discord
 import yaml
 
 TOP_DIR = Path(__file__).resolve().parent.parent

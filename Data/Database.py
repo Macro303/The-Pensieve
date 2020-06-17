@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-from pony.orm import Database, db_session, PrimaryKey, Required, composite_key
-from uuid import UUID, uuid4
 import logging
-from typing import Optional as Opt
 from enum import Enum
+from typing import Optional as Opt
+from uuid import UUID, uuid4
+
+from pony.orm import Database, db_session, PrimaryKey, Required, composite_key
 
 LOGGER = logging.getLogger(__name__)
 db = Database()
+
 
 class Threat(Enum):
     UNMAPPED = 0
@@ -24,6 +26,7 @@ class Threat(Enum):
         for value, entry in cls.__members__.items():
             if name.lower() == value.lower():
                 return entry
+
 
 class Foundable(db.Entity):
     uuid = PrimaryKey(UUID, default=uuid4)
@@ -43,12 +46,11 @@ class Foundable(db.Entity):
                 return cls.get_or_create(family=family, page=page, name=name, threat=threat)
             return found
 
-    
     def __str__(self) -> str:
-        return 'Foundable(' +\
-            f"uuid={self.uuid}, " +\
-            f"family={self.family}, " +\
-            f"page={self.page}, " +\
-            f"name={self.name}, " +\
-            f"threat={self.threat}" +\
-            ')'
+        return 'Foundable(' + \
+               f"uuid={self.uuid}, " + \
+               f"family={self.family}, " + \
+               f"page={self.page}, " + \
+               f"name={self.name}, " + \
+               f"threat={self.threat}" + \
+               ')'

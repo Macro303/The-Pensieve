@@ -7,6 +7,7 @@ from Logger.coloured_formatter import ColouredFormatter
 TOP_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = TOP_DIR.joinpath('logs')
 
+
 def init_logger(project: str) -> None:
     root = logging.getLogger()
     logger = logging.getLogger(__name__)

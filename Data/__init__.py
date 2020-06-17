@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import logging
-from pathlib import Path
 from enum import Enum
+from pathlib import Path
 
-from Data.EnumConverter import EnumConverter
 from Data.Database import db
+from Data.EnumConverter import EnumConverter
 
 TOP_DIR = Path(__file__).resolve().parent.parent
 LOGGER = logging.getLogger(__name__)
@@ -16,6 +16,7 @@ db.bind(
 )
 db.provider.converter_classes.append((Enum, EnumConverter))
 db.generate_mapping(create_tables=True)
+
 
 @db.on_connect(provider='sqlite')
 def sqlite_case_sensitivity(database, connection):

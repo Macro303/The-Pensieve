@@ -16,7 +16,6 @@ To add this bot to your server follow this [Link]()
  - Python 3.8.2
  - discord.py 1.3.3
  - PyYAML 5.3.1
- - requests 2.23.0
  - pony 0.7.13
 
 ## Execution
