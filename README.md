@@ -6,7 +6,7 @@
 [![Contributors](https://img.shields.io/github/contributors/Macro303/The-Pensieve.svg?style=flat-square)](https://github.com/Macro303/The-Pensieve/graphs/contributors)
 [![License](https://img.shields.io/github/license/Macro303/The-Pensieve.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-Simple bot to show stats and other useful information for Pokémon Go.  
+Simple bot to show stats and other useful information for Wizards Unite.  
 Current Information:
 _TBD_
 
