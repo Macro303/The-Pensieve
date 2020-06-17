@@ -31,3 +31,5 @@ $ python -m Data
 ```
 
 ## Socials
+[![Discord](https://discord.com/api/v6/guilds/720968695995695115/widget.png?style=banner2)](https://discord.gg/wPQjudd)
+[![Discord](https://discord.com/api/v6/guilds/618581423070117932/widget.png?style=banner2)](https://discord.gg/nqGMeGg)
