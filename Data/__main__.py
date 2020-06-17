@@ -13,85 +13,310 @@ def main():
 def create_foundables():
     registry = {
         'Care of Magical Creatures': {
+            'Forbidden Forest': {
+                'Baby Unicorn': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Blast-Ended Skrewt': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Dragon Egg': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Firenze': {
+                    'Threat': Threat.SEVERE,
+                    'Standard': 5
+                },
+                'Hippogriff': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # }
+            },
             'Hagrid\'s Hut': {
-                'Abraxian Winged Horse': Threat.RARE,
-                'Hagrid\'s Hut': Threat.RARE,
-                'Rubeus Hagrid': Threat.EMERGENCY,
-                'Buckbeak': Threat.SEVERE,
-                'Baby Norwegian Ridgeback': Threat.HIGH
+                'Abraxian Winged Horse': {
+                    'Threat': Threat.RARE,
+                    'Standard': 7
+                },
+                'Baby Norwegian Ridgeback': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                'Buckbeak': {
+                    'Threat': Threat.SEVERE,
+                    'Standard': 5
+                },
+                'Rubeus Hagrid': {
+                    'Threat': Threat.EMERGENCY,
+                    'Standard': 1
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # }
             },
             'Pumpkin Patch': {
-                'Kneazle': Threat.LOW,
-                'Baby Hippogriff': Threat.LOW,
-                'Flobberwurm': Threat.LOW,
-                'Monster Book of Monsters': Threat.MEDIUM,
-                'Acromantula Eggs': Threat.LOW
-            },
-            'Forbidden Forest': {
-                'Hippogriff': Threat.HIGH,
-                'Firenze': Threat.SEVERE,
-                'Baby Unicorn': Threat.MEDIUM,
-                'Blast-Ended Skrewt': Threat.MEDIUM,
-                'Dragon Egg': Threat.MEDIUM,
-                # 'Unknown': Threat.RARE
+                'Acromantula Eggs': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Baby Hippogriff': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Flobberwurm': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Kneazle': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Monster Book of Monsters': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                }
             }
         },
         'Dark Arts': {
             'Borgin & Burkes': {
-                'Wanted Poster of an Azkaban Escapee': Threat.LOW,
-                'Magick Moste Evile': Threat.LOW,
-                'Vanishing Cabinet': Threat.MEDIUM,
-                'Flesh-Eating Slugs': Threat.LOW,
-                'Hand of Glory': Threat.LOW
-            },
-            'Knockturn Alley': {
-                # 'Unknown': Threat.SEVERE,
-                # 'Unknown': Threat.RARE,
-                'Portrait of Bellatrix Lestrange': Threat.MEDIUM,
-                'Hag': Threat.MEDIUM,
-                'Thestral': Threat.HIGH,
-                'Ministry Executioner': Threat.HIGH
+                'Flesh-Eating Slugs': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Hand of Glory': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Magick Moste Evile': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Vanishing Cabinet': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Wanted Poster of an Azkaban Escapee': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                }
             },
             'Fallen Ministry Atrium': {
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.SEVERE,
-                # 'Unknown': Threat.EMERGENCY,
-                # 'Unknown': Threat.HIGH
+                'Portrait of Voldemort': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.EMERGENCY,
+                #     'Standard': 3
+                # }
+            },
+            'Knockturn Alley': {
+                'Hag': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Ministry Executioner': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Portrait of Bellatrix Lestrange': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Thestral': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # }
             }
         },
         'Hogwarts School': {
             'DADA Classroom': {
-                'Gryffindor Student': Threat.LOW,
-                'Ravenclaw Student': Threat.LOW,
-                'Hufflepuff Student': Threat.LOW,
-                'Boggart Cabinet': Threat.MEDIUM,
-                'Slytherin Student': Threat.LOW
-            },
-            'Moving Staircases': {
-                'Professor Flitwick': Threat.MEDIUM,
-                # 'Unknown': Threat.EMERGENCY,
-                'Peeves': Threat.HIGH,
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.HIGH,
-                'Pomona Sprout': Threat.MEDIUM
+                'Boggart Cabinet': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Gryffindor Student': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Hufflepuff Student': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Ravenclaw Student': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Slytherin Student': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                }
             },
             'Great Hall': {
-                # 'Unknown': Threat.SEVERE,
-                # 'Unknown': Threat.MEDIUM,
-                # 'Unknown': Threat.RARE,
-                'Owl Lecturn': Threat.RARE,
-                # 'Unknown': Threat.SEVERE
+                'Owl Lecturn': {
+                    'Threat': Threat.RARE,
+                    'Standard': 7
+                },
+                'Portrait of Albus Dumbledore': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # }
+            },
+            'Moving Staircases': {
+                'Moaning Myrtle': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                'Peeves': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                'Pomona Sprout': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                'Professor Flitwick': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.EMERGENCY,
+                #     'Standard': 3
+                # }
             },
             'Moving Staircases II': {
-                # 'Unknown': Threat.HIGH,
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.HIGH,
-                'Portrait of Rowena Ravenclaw': Threat.HIGH,
-                'Portrait of Godric Gryffindor': Threat.HIGH
+                'Portrait of Godric Gryffindor': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                'Portrait of Rowena Ravenclaw': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.HIGH,
+                #     'Standard': 9
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.HIGH,
+                #     'Standard': 9
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # }
             }
         },
         'Legends of Hogwarts': {
+            'Chess Chamber': {
+                # 'Unknown': {
+                #     'Threat': Threat.EMERGENCY,
+                #     'Standard': 3
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                'Young Ron Weasley': {
+                    'Threat': Threat.MEDIUM,
+                    'Standard': 12
+                }
+            },
+            'Hogwarts Grounds': {
+                # 'Unknown': {
+                #     'Threat': Threat.HIGH,
+                #     'Standard': 9
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.SEVERE,
+                #     'Standard': 5
+                # },
+                'Young Peter Pettigrew': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                'Young Remus Lupin': {
+                    'Threat': Threat.SEVERE,
+                    'Standard': 5
+                }
+            },
+            'Potions Classroom': {
+                'Hedwig': {
+                    'Threat': Threat.LOW,
+                    'Standard': 15
+                },
+                'Professor Snape': {
+                    'Threat': Threat.HIGH,
+                    'Standard': 9
+                },
+                # 'Unknown': {
+                #     'Threat': Threat.HIGH,
+                #     'Standard': 9
+                # },
+                # 'Unknown': {
+                #     'Threat': Threat.RARE,
+                #     'Standard': 7
+                # },
+                'Young Harry Potter': {
+                    'Threat': Threat.SEVERE,
+                    'Standard': 5
+                }
+            },
             'Room of Requirements I': {
                 'Filch and Mrs. Norris': Threat.LOW,
                 # 'Unknown': Threat.MEDIUM,
@@ -99,20 +324,6 @@ def create_foundables():
                 'Young Luna Lovegood': Threat.MEDIUM,
                 'Dumbledore\'s Army Dueling Dummy': Threat.LOW,
                 'Weasley Fireworks': Threat.LOW
-            },
-            'Potions Classroom': {
-                'Young Harry Potter': Threat.SEVERE,
-                'Hedwig': Threat.LOW,
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.HIGH,
-                # 'Unknown': Threat.HIGH
-            },
-            'Chess Chamber': {
-                # 'Unknown': Threat.SEVERE,
-                # 'Unknown': Threat.RARE,
-                # 'Unknown': Threat.EMERGENCY,
-                # 'Unknown': Threat.RARE,
-                'Young Ron Weasley': Threat.MEDIUM
             },
             'Room of Requirement V': {
                 # 'Unknown': Threat.SEVERE,
@@ -126,13 +337,6 @@ def create_foundables():
                 # 'Unknown': Threat.HIGH,
                 # 'Unknown': Threat.SEVERE,
                 # 'Unknown': Threat.SEVERE,
-                # 'Unknown': Threat.RARE
-            },
-            'Hogwarts Grounds': {
-                # 'Unknown': Threat.HIGH,
-                # 'Unknown': Threat.SEVERE,
-                'Young Remus Lupin': Threat.SEVERE,
-                # 'Unknown': Threat.HIGH,
                 # 'Unknown': Threat.RARE
             }
         },
