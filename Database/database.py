@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Optional as Opt, Tuple
 from uuid import UUID, uuid4
 
-from pony.orm import Database, db_session, PrimaryKey, Required, composite_key
+from pony.orm import Database, db_session, PrimaryKey, Required, Optional, composite_key
 
 LOGGER = logging.getLogger(__name__)
 db = Database()
@@ -40,6 +40,20 @@ class Threat(Enum):
         elif self == Threat.EMERGENCY:
             return 3, 5, 7, 10
 
+    def get_colour(self) -> str:
+        if self == Threat.FORTRESS:
+            return '000000'
+        elif self == Threat.LOW:
+            return 'FFFFFF'
+        elif self == Threat.MEDIUM:
+            return 'FFD700'
+        elif self == Threat.HIGH:
+            return 'FF8C00'
+        elif self == Threat.SEVERE:
+            return 'FF4500'
+        elif self == Threat.EMERGENCY:
+            return 'FF6347'
+
 
 class Method(Enum):
     ENCOUNTER = 0
@@ -65,18 +79,28 @@ class Method(Enum):
         elif self == Method.TASK:
             return 1
 
+    def get_colour(self) -> str:
+        if self == Method.ENCOUNTER:
+            return 'FFD700'
+        elif self == Method.PORTKEY:
+            return 'FF8C00'
+        elif self == Method.FORTRESS:
+            return 'FF4500'
+        elif self == Method.TASK:
+            return 'FF6347'
+
 
 class Exploration(db.Entity):
     uuid = PrimaryKey(UUID, default=uuid4)
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    threat = Required(Threat)
+    threat = Optional(Threat, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Threat):
+    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat]):
         with db_session:
             found = cls.get(family=family, page=page, name=name, threat=threat)
             if not found:
@@ -99,7 +123,7 @@ class Challenge(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    threat = Required(Threat)
+    threat = Optional(Threat, nullable=True)
 
     composite_key(family, page, name)
 
@@ -127,7 +151,7 @@ class Mystery(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    fragments = Required(int)
+    fragments = Optional(int, nullable=True)
 
     composite_key(family, page, name)
 
@@ -155,7 +179,7 @@ class Event(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    method = Required(Method)
+    method = Optional(Method, nullable=True)
 
     composite_key(family, page, name)
 

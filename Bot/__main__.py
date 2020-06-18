@@ -2,7 +2,7 @@
 import logging
 
 import discord
-from Bot import CONFIG
+from Bot import CONFIG, load_colour
 from Database.database import Exploration, Challenge, Mystery, Event
 from Logger import init_logger
 from discord.ext import commands
@@ -13,137 +13,169 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(CONFIG['Prefix']), 
 
 
 @bot.command(name='Family')
-async def registry_family(ctx, family: str):
-    LOGGER.info(f"Looking up `{family}`")
+async def registry_family(ctx, *family: str):
+    search = ' '.join(family)
+    LOGGER.info(f"Looking up Family: `{search}`")
     with db_session:
-        found = Exploration.select(lambda e: e.family == family) \
-            .order_by(Exploration.family, Exploration.page, Exploration.name)
+        found = [
+            *Exploration.select(lambda x: x.family == search)
+                 .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
+            *Challenge.select(lambda c: c.family == search)
+                 .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
+            *Mystery.select(lambda m: m.family == search)
+                 .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
+            *Event.select(lambda e: e.family == search)
+                 .order_by(Event.family, Event.page, Event.name)[:]
+        ]
         if found:
             for item in found:
-                await ctx.send(embed=exploration_embed(item))
-        else:
-            found = Challenge.select(lambda c: c.family == family) \
-                .order_by(Challenge.family, Challenge.page, Challenge.name)
-            if found:
-                for item in found:
+                LOGGER.debug(f"Family: {item}")
+                if isinstance(item, Exploration):
+                    await ctx.send(embed=exploration_embed(item))
+                elif isinstance(item, Challenge):
                     await ctx.send(embed=challenge_embed(item))
-            else:
-                found = Mystery.select(lambda m: m.family == family) \
-                    .order_by(Mystery.family, Mystery.page, Mystery.name)
-                if found:
-                    for item in found:
-                        await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Mystery):
+                    await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Event):
+                    await ctx.send(embed=event_embed(item))
                 else:
-                    found = Event.select(lambda e: e.family == family) \
-                        .order_by(Event.family, Event.page, Event.name)
-                    if found:
-                        for item in found:
-                            await ctx.send(embed=event_embed(item))
-                    else:
-                        LOGGER.warning(f"Unable to find `{family}` in the Registry")
-                        await ctx.send(f"Unable to find `{family}` in the Registry")
+                    LOGGER.error(f"Found: {item}, Unable to map it")
+        else:
+            LOGGER.warning(f"Unable to find `{search}` in the Registry")
+            await ctx.send(f"Unable to find `{search}` in the Registry")
 
 
 @bot.command(name='Page')
-async def registry_page(ctx, page: str):
-    LOGGER.info(f"Looking up `{page}`")
+async def registry_page(ctx, *page: str):
+    search = ' '.join(page)
+    LOGGER.info(f"Looking up Page: `{search}`")
     with db_session:
-        found = Exploration.select(lambda e: e.page == page) \
-            .order_by(Exploration.family, Exploration.page, Exploration.name)
+        found = [
+            *Exploration.select(lambda x: x.page == search)
+                 .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
+            *Challenge.select(lambda c: c.page == search)
+                 .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
+            *Mystery.select(lambda m: m.page == search)
+                 .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
+            *Event.select(lambda e: e.page == search)
+                 .order_by(Event.family, Event.page, Event.name)[:]
+        ]
         if found:
             for item in found:
-                await ctx.send(embed=exploration_embed(item))
-        else:
-            found = Challenge.select(lambda c: c.page == page) \
-                .order_by(Challenge.family, Challenge.page, Challenge.name)
-            if found:
-                for item in found:
+                LOGGER.debug(f"Page: {item}")
+                if isinstance(item, Exploration):
+                    await ctx.send(embed=exploration_embed(item))
+                elif isinstance(item, Challenge):
                     await ctx.send(embed=challenge_embed(item))
-            else:
-                found = Mystery.select(lambda m: m.page == page) \
-                    .order_by(Mystery.family, Mystery.page, Mystery.name)
-                if found:
-                    for item in found:
-                        await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Mystery):
+                    await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Event):
+                    await ctx.send(embed=event_embed(item))
                 else:
-                    found = Event.select(lambda e: e.page == page) \
-                        .order_by(Event.family, Event.page, Event.name)
-                    if found:
-                        for item in found:
-                            await ctx.send(embed=event_embed(item))
-                    else:
-                        LOGGER.warning(f"Unable to find `{page}` in the Registry")
-                        await ctx.send(f"Unable to find `{page}` in the Registry")
+                    LOGGER.error(f"Found: {item}, Unable to map it")
+        else:
+            LOGGER.warning(f"Unable to find `{search}` in the Registry")
+            await ctx.send(f"Unable to find `{search}` in the Registry")
 
 
 @bot.command(name='Foundable')
-async def registry_foundable(ctx, name: str):
-    LOGGER.info(f"Looking up `{name}`")
+async def registry_foundable(ctx, *name: str):
+    search = ' '.join(name)
+    LOGGER.info(f"Looking up Foundable: `{search}`")
     with db_session:
-        found = Exploration.select(lambda e: e.name == name) \
-            .order_by(Exploration.family, Exploration.page, Exploration.name)
+        found = [
+            *Exploration.select(lambda x: x.name == search)
+                 .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
+            *Challenge.select(lambda c: c.name == search)
+                 .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
+            *Mystery.select(lambda m: m.name == search)
+                 .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
+            *Event.select(lambda e: e.name == search)
+                 .order_by(Event.family, Event.page, Event.name)[:]
+        ]
         if found:
             for item in found:
-                await ctx.send(embed=exploration_embed(item))
-        else:
-            found = Challenge.select(lambda c: c.name == name) \
-                .order_by(Challenge.family, Challenge.page, Challenge.name)
-            if found:
-                for item in found:
+                LOGGER.debug(f"Foundable: {item}")
+                if isinstance(item, Exploration):
+                    await ctx.send(embed=exploration_embed(item))
+                elif isinstance(item, Challenge):
                     await ctx.send(embed=challenge_embed(item))
-            else:
-                found = Mystery.select(lambda m: m.name == name) \
-                    .order_by(Mystery.family, Mystery.page, Mystery.name)
-                if found:
-                    for item in found:
-                        await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Mystery):
+                    await ctx.send(embed=mystery_embed(item))
+                elif isinstance(item, Event):
+                    await ctx.send(embed=event_embed(item))
                 else:
-                    found = Event.select(lambda e: e.name == name) \
-                        .order_by(Event.family, Event.page, Event.name)
-                    if found:
-                        for item in found:
-                            await ctx.send(embed=event_embed(item))
-                    else:
-                        LOGGER.warning(f"Unable to find `{name}` in the Registry")
-                        await ctx.send(f"Unable to find `{name}` in the Registry")
+                    LOGGER.error(f"Found: {item}, Unable to map it")
+        else:
+            LOGGER.warning(f"Unable to find `{search}` in the Registry")
+            await ctx.send(f"Unable to find `{search}` in the Registry")
 
 
 @db_session
 def exploration_embed(foundable: Exploration) -> discord.Embed:
-    embed = discord.Embed(title=foundable.name)
+    embed = discord.Embed(title='Foundable Found',
+                          colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
+    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/master/Images/{image_name}.png"
+    embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
-    embed.add_field(name='Threat', value=foundable.threat.name.title())
-    embed.add_field(name='Fragments', value=', '.join([str(i) for i in foundable.threat.get_fragments()]))
+    embed.add_field(name='Name', value=foundable.name)
+    embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else 'Missing')
+    embed.add_field(name='Fragments', value='/'.join(
+        [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else 'Missing')
+    LOGGER.debug(f"URL: {url}@3x.png")
+    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
 
 @db_session
 def challenge_embed(foundable: Challenge) -> discord.Embed:
-    embed = discord.Embed(title=foundable.name)
+    embed = discord.Embed(title='Challenge Found',
+                          colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
+    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/master/Images/{image_name}.png"
+    embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
-    embed.add_field(name='Threat', value=foundable.threat.name.title())
-    embed.add_field(name='Fragments', value=', '.join([str(i) for i in foundable.threat.get_fragments()]))
+    embed.add_field(name='Name', value=foundable.name)
+    embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else 'Missing')
+    embed.add_field(name='Fragments', value='/'.join(
+        [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else 'Missing')
+    LOGGER.debug(f"URL: {url}@3x.png")
+    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
 
 @db_session
 def mystery_embed(foundable: Mystery) -> discord.Embed:
-    embed = discord.Embed(title=foundable.name)
+    embed = discord.Embed(title='Mystery Found')
+    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/master/Images/{image_name}.png"
+    embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
-    embed.add_field(name='Fragments', value=foundable.fragments)
+    embed.add_field(name='Name', value=foundable.name)
+    embed.add_field(name='Fragments', value=foundable.fragments if foundable.threat else 'Missing')
+    LOGGER.debug(f"URL: {url}@3x.png")
+    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
 
 @db_session
 def event_embed(foundable: Event) -> discord.Embed:
-    embed = discord.Embed(title=foundable.name)
+    embed = discord.Embed(title='Event Found',
+                          colour=load_colour(foundable.method.get_colour() if foundable.method else '000000'))
+    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/master/Images/{image_name}.png"
+    embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
-    embed.add_field(name='Method', value=foundable.method.name.title())
-    embed.add_field(name='Fragments', value=foundable.method.get_fragments())
+    embed.add_field(name='Name', value=foundable.name)
+    embed.add_field(name='Method', value=foundable.method.name.title() if foundable.method else 'Missing')
+    embed.add_field(name='Fragments', value=foundable.method.get_fragments() if foundable.method else 'Missing')
+    LOGGER.debug(f"URL: {url}@3x.png")
+    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
 

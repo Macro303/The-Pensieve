@@ -25,13 +25,14 @@ def create_exploration_registry():
         csv_reader = csv.DictReader(csv_file, fieldnames=headers)
         for row in csv_reader:
             LOGGER.debug(row)
-            exploration = Exploration.get_or_create(
-                family=row['Family'].strip(),
-                page=row['Page'].strip(),
-                name=row['Name'].strip(),
-                threat=Threat.findByName(row['Threat'].strip())
-            )
-            LOGGER.info(exploration)
+            if row['Family'].strip() and row['Page'].strip() and row['Name'].strip():
+                exploration = Exploration.get_or_create(
+                    family=row['Family'].strip(),
+                    page=row['Page'].strip(),
+                    name=row['Name'].strip(),
+                    threat=Threat.findByName(row['Threat'].strip())
+                )
+                LOGGER.info(exploration)
 
 
 def create_challenges_registry():
@@ -40,7 +41,7 @@ def create_challenges_registry():
         csv_reader = csv.DictReader(csv_file, fieldnames=headers)
         for row in csv_reader:
             LOGGER.debug(row)
-            if row['Threat'].strip():
+            if row['Family'].strip() and row['Page'].strip() and row['Name'].strip():
                 challenge = Challenge.get_or_create(
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
@@ -56,12 +57,12 @@ def create_mysteries_registry():
         csv_reader = csv.DictReader(csv_file, fieldnames=headers)
         for row in csv_reader:
             LOGGER.debug(row)
-            if row['Name'].strip() and row['Fragments'].strip():
+            if row['Family'].strip() and row['Page'].strip() and row['Name'].strip():
                 mystery = Mystery.get_or_create(
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    fragments=int(row['Fragments'].strip())
+                    fragments=int(row['Fragments'].strip()) if row['Fragments'] else None
                 )
                 LOGGER.info(mystery)
 
@@ -72,7 +73,7 @@ def create_events_registry():
         csv_reader = csv.DictReader(csv_file, fieldnames=headers)
         for row in csv_reader:
             LOGGER.debug(row)
-            if row['Name'].strip() and row['Method'].strip():
+            if row['Family'].strip() and row['Page'].strip() and row['Name'].strip():
                 event = Event.get_or_create(
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
