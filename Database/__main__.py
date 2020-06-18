@@ -8,7 +8,7 @@ from Logger import init_logger
 from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
-DATA_DIR = TOP_DIR.joinpath('Data')
+DATA_DIR = TOP_DIR.joinpath('Resources').joinpath('CSV')
 
 
 @db_session
