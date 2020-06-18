@@ -18,13 +18,13 @@ async def registry_family(ctx, *family: str):
     LOGGER.info(f"Looking up Family: `{search}`")
     with db_session:
         found = [
-            *Exploration.select(lambda x: x.family == search)
+            *Exploration.select(lambda x: x.family.lower() == search.lower())
                  .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-            *Challenge.select(lambda c: c.family == search)
+            *Challenge.select(lambda c: c.family.lower() == search.lower())
                  .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-            *Mystery.select(lambda m: m.family == search)
+            *Mystery.select(lambda m: m.family.lower() == search.lower())
                  .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-            *Event.select(lambda e: e.family == search)
+            *Event.select(lambda e: e.family.lower() == search.lower())
                  .order_by(Event.family, Event.page, Event.name)[:]
         ]
         if found:
@@ -51,13 +51,13 @@ async def registry_page(ctx, *page: str):
     LOGGER.info(f"Looking up Page: `{search}`")
     with db_session:
         found = [
-            *Exploration.select(lambda x: x.page == search)
+            *Exploration.select(lambda x: x.page.lower() == search.lower())
                  .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-            *Challenge.select(lambda c: c.page == search)
+            *Challenge.select(lambda c: c.page.lower() == search.lower())
                  .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-            *Mystery.select(lambda m: m.page == search)
+            *Mystery.select(lambda m: m.page.lower() == search.lower())
                  .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-            *Event.select(lambda e: e.page == search)
+            *Event.select(lambda e: e.page.lower() == search.lower())
                  .order_by(Event.family, Event.page, Event.name)[:]
         ]
         if found:
@@ -84,13 +84,13 @@ async def registry_foundable(ctx, *name: str):
     LOGGER.info(f"Looking up Foundable: `{search}`")
     with db_session:
         found = [
-            *Exploration.select(lambda x: x.name == search)
+            *Exploration.select(lambda x: x.name.lower() == search.lower())
                  .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-            *Challenge.select(lambda c: c.name == search)
+            *Challenge.select(lambda c: c.name.lower() == search.lower())
                  .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-            *Mystery.select(lambda m: m.name == search)
+            *Mystery.select(lambda m: m.name.lower() == search.lower())
                  .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-            *Event.select(lambda e: e.name == search)
+            *Event.select(lambda e: e.name.lower() == search.lower())
                  .order_by(Event.family, Event.page, Event.name)[:]
         ]
         if found:
