@@ -115,8 +115,8 @@ async def registry_foundable(ctx, *name: str):
 def exploration_embed(foundable: Exploration) -> discord.Embed:
     embed = discord.Embed(title='Foundable Found',
                           colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
-    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
-    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/Exploration/{image_name}.png"
+    image_name = foundable.family + '/' + foundable.name.replace('\'', '').replace(' ', '-').lower()
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/exploration/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
@@ -124,7 +124,7 @@ def exploration_embed(foundable: Exploration) -> discord.Embed:
     embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else 'Missing')
     embed.add_field(name='Fragments', value='/'.join(
         [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else 'Missing')
-    LOGGER.debug(f"URL: {url}@3x.png")
+    LOGGER.debug(f"URL: {url}")
     embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
@@ -133,8 +133,8 @@ def exploration_embed(foundable: Exploration) -> discord.Embed:
 def challenge_embed(foundable: Challenge) -> discord.Embed:
     embed = discord.Embed(title='Challenge Found',
                           colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
-    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
-    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/Challenge/{image_name}.png"
+    image_name = foundable.family + '/' + foundable.name.replace('\'', '').replace(' ', '-').lower()
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/challenge/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
@@ -142,7 +142,7 @@ def challenge_embed(foundable: Challenge) -> discord.Embed:
     embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else 'Missing')
     embed.add_field(name='Fragments', value='/'.join(
         [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else 'Missing')
-    LOGGER.debug(f"URL: {url}@3x.png")
+    LOGGER.debug(f"URL: {url}")
     embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
@@ -150,14 +150,14 @@ def challenge_embed(foundable: Challenge) -> discord.Embed:
 @db_session
 def mystery_embed(foundable: Mystery) -> discord.Embed:
     embed = discord.Embed(title='Mystery Found')
-    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
-    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/Mystery/{image_name}.png"
+    image_name = foundable.family + '/' + foundable.name.replace('\'', '').replace(' ', '-').lower()
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/mystery/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
     embed.add_field(name='Fragments', value=foundable.fragments if foundable.threat else 'Missing')
-    LOGGER.debug(f"URL: {url}@3x.png")
+    LOGGER.debug(f"URL: {url}")
     embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
@@ -166,15 +166,15 @@ def mystery_embed(foundable: Mystery) -> discord.Embed:
 def event_embed(foundable: Event) -> discord.Embed:
     embed = discord.Embed(title='Event Found',
                           colour=load_colour(foundable.method.get_colour() if foundable.method else '000000'))
-    image_name = foundable.family + '/' + foundable.name.replace('.\'', '').replace(' ', '_')
-    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/Event/{image_name}.png"
+    image_name = foundable.family + '/' + foundable.name.replace('\'', '').replace(' ', '-').lower()
+    url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Images/event/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
     embed.add_field(name='Method', value=foundable.method.name.title() if foundable.method else 'Missing')
     embed.add_field(name='Fragments', value=foundable.method.get_fragments() if foundable.method else 'Missing')
-    LOGGER.debug(f"URL: {url}@3x.png")
+    LOGGER.debug(f"URL: {url}")
     embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
     return embed
 
