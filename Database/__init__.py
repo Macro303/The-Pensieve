@@ -3,8 +3,8 @@ import logging
 from enum import Enum
 from pathlib import Path
 
-from Data.Database import db
-from Data.EnumConverter import EnumConverter
+from Database.database import db
+from Database.enum_converter import EnumConverter
 
 TOP_DIR = Path(__file__).resolve().parent.parent
 LOGGER = logging.getLogger(__name__)

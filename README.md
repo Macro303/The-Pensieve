@@ -10,7 +10,7 @@ Simple bot to show stats and other useful information for Wizards Unite.
 Current Information:
 _TBD_
 
-To add this bot to your server follow this [Link]()
+To add this bot to your server follow this [Link](https://discord.com/api/oauth2/authorize?client_id=723013744808165438&permissions=67464256&scope=bot)
 
 ## Built Using
  - Python 3.8.2
