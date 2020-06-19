@@ -115,7 +115,7 @@ async def registry_foundable(ctx, *name: str):
 def exploration_embed(foundable: Exploration) -> discord.Embed:
     embed = discord.Embed(title='Foundable Found',
                           colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
-    image_name = (foundable.family + '/' + foundable.name.replace('\'', '')).replace(' ', '-').lower()
+    image_name = (foundable.family + '/' + foundable.name.replace('\'', '').replace('/', '')).replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/exploration/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
@@ -133,7 +133,7 @@ def exploration_embed(foundable: Exploration) -> discord.Embed:
 def challenge_embed(foundable: Challenge) -> discord.Embed:
     embed = discord.Embed(title='Challenge Found',
                           colour=load_colour(foundable.threat.get_colour() if foundable.threat else '000000'))
-    image_name = (foundable.family + '/' + foundable.name.replace('\'', '')).replace(' ', '-').lower()
+    image_name = (foundable.family + '/' + foundable.name.replace('\'', '').replace('/', '')).replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/challenge/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
@@ -150,7 +150,7 @@ def challenge_embed(foundable: Challenge) -> discord.Embed:
 @db_session
 def mystery_embed(foundable: Mystery) -> discord.Embed:
     embed = discord.Embed(title='Mystery Found')
-    image_name = (foundable.family + '/' + foundable.name.replace('\'', '')).replace(' ', '-').lower()
+    image_name = (foundable.family + '/' + foundable.name.replace('\'', '').replace('/', '')).replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/mystery/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
@@ -166,7 +166,7 @@ def mystery_embed(foundable: Mystery) -> discord.Embed:
 def event_embed(foundable: Event) -> discord.Embed:
     embed = discord.Embed(title='Event Found',
                           colour=load_colour(foundable.method.get_colour() if foundable.method else '000000'))
-    image_name = (foundable.family + '/' + foundable.name.replace('\'', '')).replace(' ', '-').lower()
+    image_name = (foundable.family + '/' + foundable.name.replace('\'', '').replace('/', '')).replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/event/{image_name}.png"
     embed.set_thumbnail(url=url)
     embed.add_field(name='Family', value=foundable.family)
