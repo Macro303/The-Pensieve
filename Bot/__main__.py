@@ -28,7 +28,13 @@ async def family_search(ctx, *family: str):
             found = Exploration.select(lambda x: x.family.lower() in search.lower()) \
                         .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
         if found:
-            await ctx.send(embed=family_embed(found))
+            items = {}
+            for item in found:
+                if item.family not in items:
+                    items[item.family] = []
+                items[item.family].append(item)
+            for key, family in items.items():
+                await ctx.send(embed=family_embed(family))
         else:
             LOGGER.warning(f"Unable to find `{search}` in the Exploration Registry")
             await ctx.send(f"Unable to find `{search}` in the Exploration Registry")
@@ -43,7 +49,7 @@ def family_embed(foundables: List[Exploration]) -> discord.Embed:
             pages[item.page] = []
         pages[item.page].append(item.name)
     for page, items in pages.items():
-        embed.add_field(name=page, value='-' + ('\n-'.join(items)))
+        embed.add_field(name=page, value=' - ' + ('\n - '.join(items)))
 
     image_name = foundables[0].family.replace('\'/:,', '').replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/family/{image_name}.png"
@@ -111,7 +117,7 @@ def foundable_embed(foundable: Exploration) -> discord.Embed:
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
-    embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Threat', value=('' if foundable.threat is Threat.BLANK else foundable.threat.name.title()) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Fragments', value='/'.join(
         [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
@@ -177,7 +183,7 @@ def challenge_embed(foundable: Challenge) -> discord.Embed:
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
-    embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Threat', value=('' if foundable.threat is Threat.BLANK else foundable.threat.name.title()) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Fragments', value='/'.join(
         [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
@@ -200,7 +206,13 @@ async def mystery_family(ctx, *family: str):
             found = Mystery.select(lambda x: x.family.lower() in search.lower()) \
                         .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
         if found:
-            await ctx.send(embed=mystery_family_embed(found))
+            items = {}
+            for item in found:
+                if item.family not in items:
+                    items[item.family] = []
+                items[item.family].append(item)
+            for key, family in items.items():
+                await ctx.send(embed=mystery_family_embed(family))
         else:
             LOGGER.warning(f"Unable to find `{search}` in the Mystery Registry")
             await ctx.send(f"Unable to find `{search}` in the Mystery Registry")
@@ -216,7 +228,7 @@ def mystery_family_embed(foundables: List[Mystery]) -> discord.Embed:
             pages[item.page] = []
         pages[item.page].append(item.name)
     for page, items in pages.items():
-        embed.add_field(name=page, value='-' + ('\n-'.join(items)))
+        embed.add_field(name=page, value=' - ' + ('\n - '.join(items)))
 
     # image_name = foundables[0].family.replace('\'/:,', '').replace(' ', '-').lower()
     # url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/family/{image_name}.png"
@@ -284,7 +296,7 @@ def mystery_embed(foundable: Mystery) -> discord.Embed:
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
-    embed.add_field(name='Fragments', value=foundable.fragments if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Fragments', value=foundable.fragments if foundable.fragments else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
     LOGGER.debug(f"URL: {url}")
     embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
@@ -305,7 +317,13 @@ async def event_family(ctx, *family: str):
             found = Event.select(lambda x: x.family.lower() in search.lower()) \
                         .order_by(Event.family, Event.page, Event.name)[:]
         if found:
-            await ctx.send(embed=event_family_embed(found))
+            items = {}
+            for item in found:
+                if item.family not in items:
+                    items[item.family] = []
+                items[item.family].append(item)
+            for key, family in items.items():
+                await ctx.send(embed=event_family_embed(family))
         else:
             LOGGER.warning(f"Unable to find `{search}` in the Event Registry")
             await ctx.send(f"Unable to find `{search}` in the Event Registry")
@@ -321,7 +339,7 @@ def event_family_embed(foundables: List[Event]) -> discord.Embed:
             pages[item.page] = []
         pages[item.page].append(item.name)
     for page, items in pages.items():
-        embed.add_field(name=page, value='-' + ('\n-'.join(items)))
+        embed.add_field(name=page, value=' - ' + ('\n - '.join(items)))
 
     # image_name = foundables[0].family.replace('\'/:,', '').replace(' ', '-').lower()
     # url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/family/{image_name}.png"
@@ -389,7 +407,7 @@ def event_embed(foundable: Event) -> discord.Embed:
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
-    embed.add_field(name='Threat', value=foundable.threat.name.title() if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Threat', value=('' if foundable.threat is Threat.BLANK else foundable.threat.name.title()) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Method', value=foundable.method.name.title() if foundable.method else '~~Classified~~')
     embed.add_field(name='Fragments', value=foundable.method.get_fragments() if foundable.method else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')

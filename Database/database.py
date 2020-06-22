@@ -25,6 +25,8 @@ class Threat(Enum):
         for value, entry in cls.__members__.items():
             if name.lower() == value.lower():
                 return entry
+        if name.lower() == 'blank':
+            return Threat.FORTRESS
 
     def get_fragments(self) -> Tuple[int, int, int, int]:
         if self == Threat.FORTRESS:
