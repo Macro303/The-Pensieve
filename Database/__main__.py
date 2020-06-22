@@ -66,7 +66,7 @@ def create_mysteries_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    fragments=int(row['Fragments'].strip()) if row['Fragments'] else None,
+                    fragments=int(row['Fragments'].strip()) if row['Fragments'] and row['Fragments'].isdigit() else None,
                     returned=row['Returned'].strip(),
                     description=row['Description'].strip()
                 )
