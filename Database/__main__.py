@@ -30,7 +30,9 @@ def create_exploration_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    threat=Threat.findByName(row['Threat'].strip())
+                    threat=Threat.findByName(row['Threat'].strip()),
+                    returned=row['Returned'].strip(),
+                    description=row['Description'].strip()
                 )
                 LOGGER.info(exploration)
 
@@ -46,7 +48,9 @@ def create_challenges_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    threat=Threat.findByName(row['Threat'].strip())
+                    threat=Threat.findByName(row['Threat'].strip()),
+                    returned=row['Returned'].strip(),
+                    description=row['Description'].strip()
                 )
                 LOGGER.info(challenge)
 
@@ -62,7 +66,9 @@ def create_mysteries_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    fragments=int(row['Fragments'].strip()) if row['Fragments'] else None
+                    fragments=int(row['Fragments'].strip()) if row['Fragments'] else None,
+                    returned=row['Returned'].strip(),
+                    description=row['Description'].strip()
                 )
                 LOGGER.info(mystery)
 
@@ -78,7 +84,10 @@ def create_events_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    method=Method.findByName(row['Method'].strip())
+                    threat=Threat.findByName(row['Threat'].strip()),
+                    method=Method.findByName(row['Method'].strip()),
+                    returned=row['Returned'].strip(),
+                    description=row['Description'].strip()
                 )
                 LOGGER.info(event)
 

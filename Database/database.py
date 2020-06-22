@@ -96,16 +96,24 @@ class Exploration(db.Entity):
     page = Required(str)
     name = Required(str)
     threat = Optional(Threat, nullable=True)
+    returned = Optional(str, nullable=True)
+    description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat]):
+    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat], returned: Opt[str] = None,
+                      description: Opt[str] = None):
         with db_session:
-            found = cls.get(family=family, page=page, name=name, threat=threat)
+            if not returned or len(returned.strip()) <= 0:
+                returned = None
+            if not description or len(description.strip()) <= 0:
+                description = None
+            found = cls.get(family=family, page=page, name=name)
             if not found:
-                cls(family=family, page=page, name=name, threat=threat)
-                return cls.get_or_create(family=family, page=page, name=name, threat=threat)
+                cls(family=family, page=page, name=name, threat=threat, returned=returned, description=description)
+                return cls.get_or_create(family=family, page=page, name=name, threat=threat, returned=returned,
+                                         description=description)
             return found
 
     def __str__(self) -> str:
@@ -114,7 +122,9 @@ class Exploration(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"threat={self.threat}" + \
+               f"threat={self.threat}, " + \
+               f"returned={self.returned}, " + \
+               f"description={self.description}" + \
                ')'
 
 
@@ -124,16 +134,24 @@ class Challenge(db.Entity):
     page = Required(str)
     name = Required(str)
     threat = Optional(Threat, nullable=True)
+    returned = Optional(str, nullable=True)
+    description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Threat):
+    def get_or_create(cls, family: str, page: str, name: str, threat: Threat, returned: Opt[str] = None,
+                      description: Opt[str] = None):
         with db_session:
-            found = cls.get(family=family, page=page, name=name, threat=threat)
+            if not returned or len(returned.strip()) <= 0:
+                returned = None
+            if not description or len(description.strip()) <= 0:
+                description = None
+            found = cls.get(family=family, page=page, name=name)
             if not found:
-                cls(family=family, page=page, name=name, threat=threat)
-                return cls.get_or_create(family=family, page=page, name=name, threat=threat)
+                cls(family=family, page=page, name=name, threat=threat, returned=returned, description=description)
+                return cls.get_or_create(family=family, page=page, name=name, threat=threat, returned=returned,
+                                         description=description)
             return found
 
     def __str__(self) -> str:
@@ -142,7 +160,9 @@ class Challenge(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"threat={self.threat}" + \
+               f"threat={self.threat}, " + \
+               f"returned={self.returned}, " + \
+               f"description={self.description}" + \
                ')'
 
 
@@ -152,16 +172,25 @@ class Mystery(db.Entity):
     page = Required(str)
     name = Required(str)
     fragments = Optional(int, nullable=True)
+    returned = Optional(str, nullable=True)
+    description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, fragments: int):
+    def get_or_create(cls, family: str, page: str, name: str, fragments: int, returned: Opt[str] = None,
+                      description: Opt[str] = None):
         with db_session:
-            found = cls.get(family=family, page=page, name=name, fragments=fragments)
+            if not returned or len(returned.strip()) <= 0:
+                returned = None
+            if not description or len(description.strip()) <= 0:
+                description = None
+            found = cls.get(family=family, page=page, name=name)
             if not found:
-                cls(family=family, page=page, name=name, fragments=fragments)
-                return cls.get_or_create(family=family, page=page, name=name, fragments=fragments)
+                cls(family=family, page=page, name=name, fragments=fragments, returned=returned,
+                    description=description)
+                return cls.get_or_create(family=family, page=page, name=name, fragments=fragments, returned=returned,
+                                         description=description)
             return found
 
     def __str__(self) -> str:
@@ -170,7 +199,9 @@ class Mystery(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"fragments={self.fragments}" + \
+               f"fragments={self.fragments}, " + \
+               f"returned={self.returned}, " + \
+               f"description={self.description}" + \
                ')'
 
 
@@ -179,17 +210,27 @@ class Event(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
+    threat = Optional(Threat, nullable=True)
     method = Optional(Method, nullable=True)
+    returned = Optional(str, nullable=True)
+    description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, method: Method):
+    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat] = None, method: Opt[Method] = None,
+                      returned: Opt[str] = None, description: Opt[str] = None):
         with db_session:
-            found = cls.get(family=family, page=page, name=name, method=method)
+            if not returned or len(returned.strip()) <= 0:
+                returned = None
+            if not description or len(description.strip()) <= 0:
+                description = None
+            found = cls.get(family=family, page=page, name=name)
             if not found:
-                cls(family=family, page=page, name=name, method=method)
-                return cls.get_or_create(family=family, page=page, name=name, method=method)
+                cls(family=family, page=page, name=name, threat=threat, method=method, returned=returned,
+                    description=description)
+                return cls.get_or_create(family=family, page=page, name=name, threat=threat, method=method,
+                                         returned=returned, description=description)
             return found
 
     def __str__(self) -> str:
@@ -198,5 +239,8 @@ class Event(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"method={self.method}" + \
+               f"threat={self.threat}, " + \
+               f"method={self.method}, " + \
+               f"returned={self.returned}, " + \
+               f"description={self.description}" + \
                ')'
