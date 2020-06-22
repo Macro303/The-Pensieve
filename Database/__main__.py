@@ -2,10 +2,11 @@
 import csv
 import logging
 
+from pony.orm import db_session
+
 from Database import TOP_DIR
 from Database.database import Threat, Exploration, Challenge, Mystery, Method, Event
 from Logger import init_logger
-from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
 DATA_DIR = TOP_DIR.joinpath('Resources').joinpath('CSV')
@@ -30,7 +31,7 @@ def create_exploration_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    threat=Threat.findByName(row['Threat'].strip()),
+                    threat=Threat.find_by_name(row['Threat'].strip()),
                     returned=row['Returned'].strip(),
                     description=row['Description'].strip()
                 )
@@ -48,7 +49,7 @@ def create_challenges_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    threat=Threat.findByName(row['Threat'].strip()),
+                    threat=Threat.find_by_name(row['Threat'].strip()),
                     returned=row['Returned'].strip(),
                     description=row['Description'].strip()
                 )
@@ -66,7 +67,8 @@ def create_mysteries_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    fragments=int(row['Fragments'].strip()) if row['Fragments'] and row['Fragments'].isdigit() else None,
+                    fragments=int(row['Fragments'].strip()) if row['Fragments'] and
+                                                               row['Fragments'].isdigit() else None,
                     returned=row['Returned'].strip(),
                     description=row['Description'].strip()
                 )
@@ -84,8 +86,8 @@ def create_events_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    threat=Threat.findByName(row['Threat'].strip()),
-                    method=Method.findByName(row['Method'].strip()),
+                    threat=Threat.find_by_name(row['Threat'].strip()),
+                    method=Method.find_by_name(row['Method'].strip()),
                     returned=row['Returned'].strip(),
                     description=row['Description'].strip()
                 )

@@ -19,7 +19,7 @@ class Threat(Enum):
     EMERGENCY = 5
 
     @classmethod
-    def findByName(cls, name: Opt[str]):
+    def find_by_name(cls, name: Opt[str]):
         if not name:
             return None
         for value, entry in cls.__members__.items():
@@ -62,7 +62,7 @@ class Method(Enum):
     TASK = 3
 
     @classmethod
-    def findByName(cls, name: Opt[str]):
+    def find_by_name(cls, name: Opt[str]):
         if not name:
             return None
         for value, entry in cls.__members__.items():
@@ -105,9 +105,9 @@ class Exploration(db.Entity):
     def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat], returned: Opt[str] = None,
                       description: Opt[str] = None):
         with db_session:
-            if not returned or len(returned.strip()) <= 0:
+            if not returned:
                 returned = None
-            if not description or len(description.strip()) <= 0:
+            if not description:
                 description = None
             found = cls.get(family=family, page=page, name=name)
             if not found:
@@ -143,9 +143,9 @@ class Challenge(db.Entity):
     def get_or_create(cls, family: str, page: str, name: str, threat: Threat, returned: Opt[str] = None,
                       description: Opt[str] = None):
         with db_session:
-            if not returned or len(returned.strip()) <= 0:
+            if not returned:
                 returned = None
-            if not description or len(description.strip()) <= 0:
+            if not description:
                 description = None
             found = cls.get(family=family, page=page, name=name)
             if not found:
@@ -181,9 +181,9 @@ class Mystery(db.Entity):
     def get_or_create(cls, family: str, page: str, name: str, fragments: int, returned: Opt[str] = None,
                       description: Opt[str] = None):
         with db_session:
-            if not returned or len(returned.strip()) <= 0:
+            if not returned:
                 returned = None
-            if not description or len(description.strip()) <= 0:
+            if not description:
                 description = None
             found = cls.get(family=family, page=page, name=name)
             if not found:
@@ -221,9 +221,9 @@ class Event(db.Entity):
     def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat] = None, method: Opt[Method] = None,
                       returned: Opt[str] = None, description: Opt[str] = None):
         with db_session:
-            if not returned or len(returned.strip()) <= 0:
+            if not returned:
                 returned = None
-            if not description or len(description.strip()) <= 0:
+            if not description:
                 description = None
             found = cls.get(family=family, page=page, name=name)
             if not found:
