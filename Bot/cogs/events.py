@@ -14,7 +14,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def family_embed(foundables: List[Event], author_name: str, author_icon_url: str) -> Embed:
-    embed = Embed(title=foundables[0].family.title())
+    embed = Embed(title=foundables[0].family)
 
     pages = {}
     for item in foundables:
