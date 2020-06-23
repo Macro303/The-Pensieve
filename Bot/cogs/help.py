@@ -23,10 +23,6 @@ class HelpCog(commands.Cog, name='Help'):
             description='*Responses from **The Pensieve** marked as ~~Classified~~ have incomplete information*'
         )
         embed.set_thumbnail(url=self.bot.user.avatar_url)
-        embed.set_author(
-            name=ctx.message.author.name,
-            icon_url=ctx.message.author.avatar_url
-        )
 
         cogs = [c for c in self.bot.cogs.keys()]
         for cog in cogs:
@@ -35,6 +31,10 @@ class HelpCog(commands.Cog, name='Help'):
 
             embed.add_field(name=cog, value=commands_list, inline=False)
 
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.name}",
+            icon_url=ctx.message.author.avatar_url
+        )
         await ctx.send(embed=embed)
 
 

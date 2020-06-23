@@ -29,8 +29,10 @@ def family_embed(foundables: List[Event], author_name: str, author_icon_url: str
     LOGGER.debug(f"URL: {url}")
     embed.set_thumbnail(url=url)
 
-    embed.set_author(name=author_name, icon_url=author_icon_url)
-    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
+    embed.set_footer(
+        text=f"Requested by {author_name} | Icons from https://github.com/Macro303/The-Pensieve",
+        icon_url=author_icon_url
+    )
     return embed
 
 
@@ -57,8 +59,10 @@ def foundable_embed(foundable: Event, author_name: str, author_icon_url: str) ->
     LOGGER.debug(f"URL: {url}")
     embed.set_thumbnail(url=url)
 
-    embed.set_author(name=author_name, icon_url=author_icon_url)
-    embed.set_footer(text='Icons from https://github.com/Macro303/The-Pensieve')
+    embed.set_footer(
+        text=f"Requested by {author_name} | Icons from https://github.com/Macro303/The-Pensieve",
+        icon_url=author_icon_url
+    )
     return embed
 
 

@@ -44,9 +44,9 @@ class Threat(Enum):
 
     def get_colour(self) -> str:
         if self == Threat.FORTRESS:
-            return '000000'
+            return '333333'
         elif self == Threat.LOW:
-            return 'FFFFFF'
+            return 'DDDDDD'
         elif self == Threat.MEDIUM:
             return 'FFD700'
         elif self == Threat.HIGH:
