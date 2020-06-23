@@ -56,6 +56,11 @@ class Threat(Enum):
         elif self == Threat.EMERGENCY:
             return 'FF6347'
 
+    def get_name(self) -> str:
+        if self == Threat.FORTRESS:
+            return '*Blank*'
+        return self.name.title()
+
 
 class Method(Enum):
     ENCOUNTER = 0
@@ -90,6 +95,9 @@ class Method(Enum):
             return 'FF4500'
         elif self == Method.TASK:
             return 'FF6347'
+
+    def get_name(self) -> str:
+        return self.name.title()
 
 
 class Exploration(db.Entity):
