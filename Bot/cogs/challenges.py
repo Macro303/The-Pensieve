@@ -88,13 +88,13 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
                 found = Challenge.select() \
                             .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
             else:
-                found = Challenge.select(lambda x: search.lower() == x.family.lower()) \
+                found = Challenge.select(lambda x: search.lower() == x.page.lower()) \
                             .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
                 if not found:
-                    found = Challenge.select(lambda x: search.lower() in x.family.lower()) \
+                    found = Challenge.select(lambda x: search.lower() in x.page.lower()) \
                                 .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
                 if not found:
-                    found = Challenge.select(lambda x: x.family.lower() in search.lower()) \
+                    found = Challenge.select(lambda x: x.page.lower() in search.lower()) \
                                 .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
             if found:
                 items = {}
