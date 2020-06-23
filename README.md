@@ -7,8 +7,16 @@
 [![License](https://img.shields.io/github/license/Macro303/The-Pensieve.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 Simple bot to show stats and other useful information for Wizards Unite.  
-Current Information:
-_TBD_
+Current Commands:
+ - **Family** _Returns with the pages and foundables in the searched for Family/s in the Exploration Registry._
+ - **Foundable** _Returns with the details for the searched for Foundable/s in the Exploration Registry._
+ - **Challenges** _Returns with the pages and foundables in the searched for Challenge/s in the Challenges Registry._
+ - **Challenge** _Returns with the details for the searched for Challenge/s in the Challenges Registry._
+ - **Event** _Returns with the pages and foundables in the searched for Event/s in the Events Registry._
+ - **Event-Foundable** _Returns with the details for the searched for Foundable/s in the Events Registry._
+ - **Mystery** _Returns with the pages and foundables in the searched for Mystery/s in the Mysteries Registry._
+ - **Mystery-Foundable** _Returns with the details for the searched for Foundable/s in the Mysteries Registry._
+ - **Help** _Lists off commands and usages_
 
 To add this bot to your server follow this [Link](https://discord.com/api/oauth2/authorize?client_id=723013744808165438&permissions=67464256&scope=bot)
 
