@@ -2,13 +2,12 @@
 import logging
 from typing import List
 
-from discord import Embed
-from discord.ext import commands
-from pony.orm import db_session
-
 from Bot import load_colour
 from Bot.cogs import get_message
 from Database.database import Mystery
+from discord import Embed
+from discord.ext import commands
+from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
 
@@ -70,7 +69,7 @@ class MysteriesCog(commands.Cog, name='Mysteries Registry'):
     @commands.command(
         name='Mystery',
         description='Returns an embed with the pages and foundables in the searched for Mystery/s in the Mysteries Registry.',
-        usage='["all" or Name of Mystery]'
+        usage='[Name of Mystery]'
     )
     async def family_search(self, ctx):
         search = get_message(ctx)
@@ -82,18 +81,14 @@ class MysteriesCog(commands.Cog, name='Mysteries Registry'):
             return
 
         with db_session:
-            if search.lower() == 'all':
-                found = Mystery.select() \
+            found = Mystery.select(lambda x: search.lower() == x.family.lower()) \
+                        .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
+            if not found:
+                found = Mystery.select(lambda x: search.lower() in x.family.lower()) \
                             .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
-            else:
-                found = Mystery.select(lambda x: search.lower() == x.family.lower()) \
+            if not found:
+                found = Mystery.select(lambda x: x.family.lower() in search.lower()) \
                             .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
-                if not found:
-                    found = Mystery.select(lambda x: search.lower() in x.family.lower()) \
-                                .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
-                if not found:
-                    found = Mystery.select(lambda x: x.family.lower() in search.lower()) \
-                                .order_by(Mystery.family, Mystery.page, Mystery.name)[:]
             if found:
                 items = {}
                 for item in found:

@@ -2,13 +2,12 @@
 import logging
 from typing import List
 
-from discord import Embed
-from discord.ext import commands
-from pony.orm import db_session
-
 from Bot import load_colour
 from Bot.cogs import get_message
 from Database.database import Exploration
+from discord import Embed
+from discord.ext import commands
+from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
 
@@ -72,7 +71,7 @@ class ExplorationCog(commands.Cog, name='Exploration Registry'):
     @commands.command(
         name='Family',
         description='Returns an embed with the pages and foundables in the searched for Family/s in the Exploration Registry.',
-        usage='["all" or Name of Family]'
+        usage='[Name of Family]'
     )
     async def family_search(self, ctx):
         search = get_message(ctx)
@@ -84,18 +83,14 @@ class ExplorationCog(commands.Cog, name='Exploration Registry'):
             return
 
         with db_session:
-            if search.lower() == 'all':
-                found = Exploration.select() \
+            found = Exploration.select(lambda x: search.lower() == x.family.lower()) \
+                        .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
+            if not found:
+                found = Exploration.select(lambda x: search.lower() in x.family.lower()) \
                             .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
-            else:
-                found = Exploration.select(lambda x: search.lower() == x.family.lower()) \
+            if not found:
+                found = Exploration.select(lambda x: x.family.lower() in search.lower()) \
                             .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
-                if not found:
-                    found = Exploration.select(lambda x: search.lower() in x.family.lower()) \
-                                .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
-                if not found:
-                    found = Exploration.select(lambda x: x.family.lower() in search.lower()) \
-                                .order_by(Exploration.family, Exploration.page, Exploration.name)[:]
             if found:
                 items = {}
                 for item in found:

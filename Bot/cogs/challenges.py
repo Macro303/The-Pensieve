@@ -2,13 +2,12 @@
 import logging
 from typing import List
 
-from discord import Embed
-from discord.ext import commands
-from pony.orm import db_session
-
 from Bot import load_colour
 from Bot.cogs import get_message
 from Database.database import Challenge
+from discord import Embed
+from discord.ext import commands
+from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
 
@@ -72,7 +71,7 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
     @commands.command(
         name='Challenges',
         description='Returns an embed with the pages and foundables in the searched for Challenge/s in the Challenges Registry.',
-        usage='["all" or Name of Challenge]'
+        usage='[Name of Challenge]'
     )
     async def family_search(self, ctx):
         search = get_message(ctx)
@@ -84,18 +83,14 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
             return
 
         with db_session:
-            if search.lower() == 'all':
-                found = Challenge.select() \
+            found = Challenge.select(lambda x: search.lower() == x.page.lower()) \
+                        .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
+            if not found:
+                found = Challenge.select(lambda x: search.lower() in x.page.lower()) \
                             .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
-            else:
-                found = Challenge.select(lambda x: search.lower() == x.page.lower()) \
+            if not found:
+                found = Challenge.select(lambda x: x.page.lower() in search.lower()) \
                             .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
-                if not found:
-                    found = Challenge.select(lambda x: search.lower() in x.page.lower()) \
-                                .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
-                if not found:
-                    found = Challenge.select(lambda x: x.page.lower() in search.lower()) \
-                                .order_by(Challenge.family, Challenge.page, Challenge.name)[:]
             if found:
                 items = {}
                 for item in found:

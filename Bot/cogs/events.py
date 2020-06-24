@@ -2,13 +2,12 @@
 import logging
 from typing import List
 
-from discord import Embed
-from discord.ext import commands
-from pony.orm import db_session
-
 from Bot import load_colour
 from Bot.cogs import get_message
 from Database.database import Event
+from discord import Embed
+from discord.ext import commands
+from pony.orm import db_session
 
 LOGGER = logging.getLogger(__name__)
 
@@ -73,7 +72,7 @@ class EventsCog(commands.Cog, name='Events Registry'):
     @commands.command(
         name='Event',
         description='Returns an embed with the pages and foundables in the searched for Event/s in the Events Registry.',
-        usage='["all" or Name of Event]'
+        usage='[Name of Event]'
     )
     async def family_search(self, ctx):
         search = get_message(ctx)
@@ -85,18 +84,14 @@ class EventsCog(commands.Cog, name='Events Registry'):
             return
 
         with db_session:
-            if search.lower() == 'all':
-                found = Event.select() \
+            found = Event.select(lambda x: search.lower() == x.family.lower()) \
+                        .order_by(Event.family, Event.page, Event.name)[:]
+            if not found:
+                found = Event.select(lambda x: search.lower() in x.family.lower()) \
                             .order_by(Event.family, Event.page, Event.name)[:]
-            else:
-                found = Event.select(lambda x: search.lower() == x.family.lower()) \
+            if not found:
+                found = Event.select(lambda x: x.family.lower() in search.lower()) \
                             .order_by(Event.family, Event.page, Event.name)[:]
-                if not found:
-                    found = Event.select(lambda x: search.lower() in x.family.lower()) \
-                                .order_by(Event.family, Event.page, Event.name)[:]
-                if not found:
-                    found = Event.select(lambda x: x.family.lower() in search.lower()) \
-                                .order_by(Event.family, Event.page, Event.name)[:]
             if found:
                 items = {}
                 for item in found:

@@ -20,7 +20,7 @@ class HelpCog(commands.Cog, name='Help'):
     async def help_command(self, ctx, cog='all'):
         embed = Embed(
             title='Help',
-            description='*Responses from **The Pensieve** marked as ~~Classified~~ have incomplete information*'
+            description='*Responses from **The Pensieve** marked as ~~Classified~~ have incomplete information*\nAll searches are required to be more than 3 characters long.'
         )
         embed.set_thumbnail(url=self.bot.user.avatar_url)
 
