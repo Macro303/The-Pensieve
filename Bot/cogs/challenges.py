@@ -12,7 +12,7 @@ from pony.orm import db_session
 LOGGER = logging.getLogger(__name__)
 
 
-def family_embed(foundables: List[Challenge], author_name: str, author_icon_url: str) -> Embed:
+def page_embed(foundables: List[Challenge], author_name: str, author_icon_url: str) -> Embed:
     embed = Embed(title=foundables[0].family)
 
     pages = {}
@@ -51,7 +51,7 @@ def foundable_embed(foundable: Challenge, author_name: str, author_icon_url: str
         [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
 
-    image_name = '/'.join([x.replace('\'/:,', '') for x in [foundable.family, foundable.name]]) \
+    image_name = '/'.join([x.replace('\'/:,', '') for x in [foundable.page, foundable.name]]) \
         .replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/challenges/{image_name}.png"
     LOGGER.debug(f"URL: {url}")
@@ -73,9 +73,9 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
         description='Returns an embed with the pages and foundables in the searched for Challenge/s in the Challenges Registry.',
         usage='[Name of Challenge]'
     )
-    async def family_search(self, ctx):
+    async def page_search(self, ctx):
         search = get_message(ctx)
-        LOGGER.info(f"Looking up Family: `{search}`")
+        LOGGER.info(f"Looking up Page: `{search}`")
 
         if not search:
             LOGGER.warning(f"Unable to find `{search}` in the Challenge Registry")
@@ -102,9 +102,9 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
                     if name not in items:
                         items[name] = []
                     items[name].append(item)
-                for key, family in items.items():
-                    await ctx.send(embed=family_embed(
-                        foundables=family,
+                for key, page in items.items():
+                    await ctx.send(embed=page_embed(
+                        foundables=page,
                         author_name=ctx.message.author.name,
                         author_icon_url=ctx.message.author.avatar_url
                     ))
