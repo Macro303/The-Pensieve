@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import logging
 
+from Bot import CONFIG
 from discord import Embed
 from discord.ext import commands
-from Bot import CONFIG
 
 LOGGER = logging.getLogger(__name__)
 
@@ -27,7 +27,10 @@ class HelpCog(commands.Cog, name='Help'):
         cogs = [c for c in self.bot.cogs.keys()]
         for cog in cogs:
             cog_commands = self.bot.get_cog(cog).get_commands()
-            commands_list = '\n'.join([f"**{comm.name}** - `{CONFIG['Prefix']}{comm.name} {comm.usage}`\n*{comm.description}*" for comm in cog_commands])
+            commands_list = '\n'.join(
+                [f"**{comm.name}** - `{CONFIG['Prefix']}{comm.name} {comm.usage}`\n*{comm.description}*"
+                 for comm in cog_commands]
+            )
 
             embed.add_field(name=cog, value=commands_list, inline=False)
 

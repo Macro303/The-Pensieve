@@ -81,6 +81,10 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
             LOGGER.warning(f"Unable to find `{search}` in the Challenge Registry")
             await ctx.send(f"Unable to find `{search}` in the Challenge Registry")
             return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
+            return
 
         with db_session:
             found = Challenge.select(lambda x: search.lower() == x.page.lower()) \
@@ -109,9 +113,9 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
                 await ctx.send(f"Unable to find `{search}` in the Challenge Registry")
 
     @commands.command(
-        name='Challenge',
+        name='Challenge-Foundable',
         description='Returns an embed with the details for the searched for Challenge/s in the Challenges Registry.',
-        usage='[Name of Challenge]'
+        usage='[Name of Foundable]'
     )
     async def foundable_search(self, ctx):
         search = get_message(ctx)
@@ -120,6 +124,10 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
         if not search:
             LOGGER.warning(f"Unable to find `{search}` in the Challenge Registry")
             await ctx.send(f"Unable to find `{search}` in the Challenge Registry")
+            return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
             return
 
         with db_session:

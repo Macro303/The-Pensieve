@@ -81,6 +81,10 @@ class ExplorationCog(commands.Cog, name='Exploration Registry'):
             LOGGER.warning(f"Unable to find `{search}` in the Exploration Registry")
             await ctx.send(f"Unable to find `{search}` in the Exploration Registry")
             return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
+            return
 
         with db_session:
             found = Exploration.select(lambda x: search.lower() == x.family.lower()) \
@@ -119,6 +123,10 @@ class ExplorationCog(commands.Cog, name='Exploration Registry'):
         if not search:
             LOGGER.warning(f"Unable to find `{search}` in the Exploration Registry")
             await ctx.send(f"Unable to find `{search}` in the Exploration Registry")
+            return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
             return
 
         with db_session:

@@ -112,18 +112,21 @@ class Exploration(db.Entity):
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat], returned: Opt[str] = None,
-                      description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, threat: Opt[Threat], returned: Opt[str] = None,
+                         description: Opt[str] = None):
         with db_session:
-            if not returned:
-                returned = None
-            if not description:
-                description = None
             found = cls.get(family=family, page=page, name=name)
-            if not found:
+            if found:
+                if threat and found.threat != threat:
+                    found.threat = threat
+                if returned and found.returned != returned:
+                    found.returned = returned
+                if description and found.description != description:
+                    found.description = description
+            else:
                 cls(family=family, page=page, name=name, threat=threat, returned=returned, description=description)
-                return cls.get_or_create(family=family, page=page, name=name, threat=threat, returned=returned,
-                                         description=description)
+                LOGGER.info(f"Created Exploration Entry: {family}, {page}, {name}")
+                return cls.get(family=family, page=page, name=name)
             return found
 
     def __str__(self) -> str:
@@ -150,18 +153,21 @@ class Challenge(db.Entity):
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Threat, returned: Opt[str] = None,
-                      description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, threat: Threat, returned: Opt[str] = None,
+                         description: Opt[str] = None):
         with db_session:
-            if not returned:
-                returned = None
-            if not description:
-                description = None
             found = cls.get(family=family, page=page, name=name)
-            if not found:
+            if found:
+                if threat and found.threat != threat:
+                    found.threat = threat
+                if returned and found.returned != returned:
+                    found.returned = returned
+                if description and found.description != description:
+                    found.description = description
+            else:
                 cls(family=family, page=page, name=name, threat=threat, returned=returned, description=description)
-                return cls.get_or_create(family=family, page=page, name=name, threat=threat, returned=returned,
-                                         description=description)
+                LOGGER.info(f"Created Challenge Entry: {family}, {page}, {name}")
+                return cls.get(family=family, page=page, name=name)
             return found
 
     def __str__(self) -> str:
@@ -188,19 +194,22 @@ class Mystery(db.Entity):
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, fragments: int, returned: Opt[str] = None,
-                      description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, fragments: int, returned: Opt[str] = None,
+                         description: Opt[str] = None):
         with db_session:
-            if not returned:
-                returned = None
-            if not description:
-                description = None
             found = cls.get(family=family, page=page, name=name)
-            if not found:
+            if found:
+                if fragments and found.fragments != fragments:
+                    found.fragments = fragments
+                if returned and found.returned != returned:
+                    found.returned = returned
+                if description and found.description != description:
+                    found.description = description
+            else:
                 cls(family=family, page=page, name=name, fragments=fragments, returned=returned,
                     description=description)
-                return cls.get_or_create(family=family, page=page, name=name, fragments=fragments, returned=returned,
-                                         description=description)
+                LOGGER.info(f"Created Mystery Entry: {family}, {page}, {name}")
+                return cls.get(family=family, page=page, name=name)
             return found
 
     def __str__(self) -> str:
@@ -228,19 +237,24 @@ class Event(db.Entity):
     composite_key(family, page, name)
 
     @classmethod
-    def get_or_create(cls, family: str, page: str, name: str, threat: Opt[Threat] = None, method: Opt[Method] = None,
-                      returned: Opt[str] = None, description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, threat: Opt[Threat] = None, method: Opt[Method] = None,
+                         returned: Opt[str] = None, description: Opt[str] = None):
         with db_session:
-            if not returned:
-                returned = None
-            if not description:
-                description = None
             found = cls.get(family=family, page=page, name=name)
-            if not found:
+            if found:
+                if threat and found.threat != threat:
+                    found.threat = threat
+                if method and found.method != method:
+                    found.method = method
+                if returned and found.returned != returned:
+                    found.returned = returned
+                if description and found.description != description:
+                    found.description = description
+            else:
                 cls(family=family, page=page, name=name, threat=threat, method=method, returned=returned,
                     description=description)
-                return cls.get_or_create(family=family, page=page, name=name, threat=threat, method=method,
-                                         returned=returned, description=description)
+                LOGGER.info(f"Created Event Entry: {family}, {page}, {name}")
+                return cls.get(family=family, page=page, name=name)
             return found
 
     def __str__(self) -> str:

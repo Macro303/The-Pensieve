@@ -79,6 +79,10 @@ class MysteriesCog(commands.Cog, name='Mysteries Registry'):
             LOGGER.warning(f"Unable to find `{search}` in the Mystery Registry")
             await ctx.send(f"Unable to find `{search}` in the Mystery Registry")
             return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
+            return
 
         with db_session:
             found = Mystery.select(lambda x: search.lower() == x.family.lower()) \
@@ -117,6 +121,10 @@ class MysteriesCog(commands.Cog, name='Mysteries Registry'):
         if not search:
             LOGGER.warning(f"Unable to find `{search}` in the Mystery Registry")
             await ctx.send(f"Unable to find `{search}` in the Mystery Registry")
+            return
+        if len(search) < 3:
+            LOGGER.warning('Your search is too short, must be longer than 3 characters')
+            await ctx.send('Your search is too short, must be longer than 3 characters')
             return
 
         with db_session:

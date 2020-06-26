@@ -2,10 +2,9 @@
 import logging
 
 import discord
-from discord.ext import commands
-
 from Bot import CONFIG
 from Logger import init_logger
+from discord.ext import commands
 
 LOGGER = logging.getLogger(__name__)
 COGS = ['Bot.cogs.exploration', 'Bot.cogs.challenges', 'Bot.cogs.events', 'Bot.cogs.mysteries', 'Bot.cogs.help']
