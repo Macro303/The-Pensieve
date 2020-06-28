@@ -71,7 +71,7 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
     @commands.command(
         name='Challenges',
         description='Returns an embed with the pages and foundables in the searched for Challenge/s in the Challenges Registry.',
-        usage='[Name of Challenge]'
+        usage='[Name of Challenge Page]'
     )
     async def page_search(self, ctx):
         search = get_message(ctx)
