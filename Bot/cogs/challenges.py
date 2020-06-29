@@ -170,18 +170,22 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
             for item in found:
                 if search in item.get_rooms():
                     filtered.add(item)
-            items = {}
-            for item in filtered:
-                name = item.page.replace('I', '')
-                if name not in items:
-                    items[name] = []
-                items[name].append(item)
-            for key, page in items.items():
-                await ctx.send(embed=page_embed(
-                    foundables=page,
-                    author_name=ctx.message.author.name,
-                    author_icon_url=ctx.message.author.avatar_url
-                ))
+            if filtered:
+                items = {}
+                for item in filtered:
+                    name = item.page.replace('I', '')
+                    if name not in items:
+                        items[name] = []
+                    items[name].append(item)
+                for key, page in items.items():
+                    await ctx.send(embed=page_embed(
+                        foundables=page,
+                        author_name=ctx.message.author.name,
+                        author_icon_url=ctx.message.author.avatar_url
+                    ))
+            else:
+                LOGGER.warning(f"Unable to find `{search}` in the Room List")
+                await ctx.send(f"Unable to find `{search}` in the Room List")
 
 
 def setup(bot):
