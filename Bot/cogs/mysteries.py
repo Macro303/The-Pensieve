@@ -36,10 +36,9 @@ def family_embed(foundables: List[Mystery], author_name: str, author_icon_url: s
 
 
 def foundable_embed(foundable: Mystery, author_name: str, author_icon_url: str) -> Embed:
-    colour = '000000'
     embed = Embed(
         title='Mystery Foundable Found',
-        colour=load_colour(colour),
+        colour=load_colour('000000'),
         description=f"```{foundable.description}```" if foundable.description else None
     )
 

@@ -1,31 +1,31 @@
-Family   ,Page                         ,Name                  ,Threat,Fragments,Returned     ,Description
-Chapter 1,Grim Fawley - Motives        ,London Five Transcript,      ,1        ,Your Notebook,Transcript of the Public Hearing given by the Ministry to discuss a motion to terminate the London Five Investigation. Grim Fawley gives a stirring monologue urging the Ministry to keep the investigation open.
-Chapter 1,Grim Fawley - Motives        ,Ministry Memos        ,      ,5        ,             ,
-Chapter 1,Grim Fawley - Motives        ,Penelope's Scarf      ,      ,1        ,Your Notebook,"An old scarf in Slytherin's House colours. The edges are frayed and tattered, and there are several holes in the scarf."
-Chapter 1,Grim Fawley - Motives        ,Penelope's Wand       ,      ,1        ,Your Notebook,"The wand is willow, twelve and a half inches long with a dragon heartstring core. There's a large, spindling crack down the middle."
-Chapter 1,Grim Fawley - Motives        ,                      ,      ,1        ,             ,
-Chapter 1,Grim Fawley - Motives        ,                      ,      ,1        ,             ,
-Chapter 1,The Foundable Spell          ,Daily Prophet         ,      ,         ,Your Notebook,"A clipping from a very old edition of the Daily Prophet: ""The victim, Hamish Steed, was under Ministry protection at the time of Flannery's murderous rampage. After several hours of interrogation, Flannery admitted that he used an ancient spell to track down his greatest desire - which happened to be the location of the late Steed""."
-Chapter 1,The Foundable Spell          ,Grim Fawley's Journal ,      ,5        ,             ,
-Chapter 1,The Foundable Spell          ,Ministry Memos        ,      ,4        ,             ,
-Chapter 1,The Foundable Spell          ,                      ,      ,1        ,             ,
-Chapter 1,The Foundable Spell          ,                      ,      ,1        ,             ,
-Chapter 1,The Foundable Spell          ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Background     ,Silver Locket         ,      ,1        ,Your Notebook,"A small silver locket, slightly tarnished from wear; on the inside of the locket is an inscription: ""My strength. My heart. My life. G & P."""
-Chapter 2,Grim Fawley - Background     ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Background     ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Background     ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Background     ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Background     ,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Ministry Record,Redacted Report       ,      ,1        ,Your Notebook,Highly redacted official incident report. A thorough reading of the report shows that Grim Fawley appears to have come to the rescue of Ministry Watchwizard Eric Munch in the Department of Mysteries' Brain Room.
-Chapter 2,Grim Fawley - Ministry Record,Unspeakables Expanding,      ,1        ,Your Notebook,"An issue of the Quibbler, its headline reading ""The Unspeakables Expand in Secret! What Are They Hiding?"" The issue is dated around the time Grim Fawley was promoted."
-Chapter 2,Grim Fawley - Ministry Record,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Ministry Record,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Ministry Record,                      ,      ,1        ,             ,
-Chapter 2,Grim Fawley - Ministry Record,                      ,      ,5        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
-Chapter 3,Penelope Fawley - Background ,                      ,      ,1        ,             ,
+Family   ,Page                         ,Name                  ,Fragments,Returned     ,Description
+Chapter 1,Grim Fawley - Motives        ,London Five Transcript,1        ,Your Notebook,Transcript of the Public Hearing given by the Ministry to discuss a motion to terminate the London Five Investigation. Grim Fawley gives a stirring monologue urging the Ministry to keep the investigation open.
+Chapter 1,Grim Fawley - Motives        ,Ministry Memos        ,5        ,             ,
+Chapter 1,Grim Fawley - Motives        ,Penelope's Scarf      ,1        ,Your Notebook,"An old scarf in Slytherin's House colours. The edges are frayed and tattered, and there are several holes in the scarf."
+Chapter 1,Grim Fawley - Motives        ,Penelope's Wand       ,1        ,Your Notebook,"The wand is willow, twelve and a half inches long with a dragon heartstring core. There's a large, spindling crack down the middle."
+Chapter 1,Grim Fawley - Motives        ,                      ,1        ,             ,
+Chapter 1,Grim Fawley - Motives        ,                      ,1        ,             ,
+Chapter 1,The Foundable Spell          ,Daily Prophet         ,         ,Your Notebook,"A clipping from a very old edition of the Daily Prophet: ""The victim, Hamish Steed, was under Ministry protection at the time of Flannery's murderous rampage. After several hours of interrogation, Flannery admitted that he used an ancient spell to track down his greatest desire - which happened to be the location of the late Steed""."
+Chapter 1,The Foundable Spell          ,Grim Fawley's Journal ,5        ,             ,
+Chapter 1,The Foundable Spell          ,Ministry Memos        ,4        ,             ,
+Chapter 1,The Foundable Spell          ,                      ,1        ,             ,
+Chapter 1,The Foundable Spell          ,                      ,1        ,             ,
+Chapter 1,The Foundable Spell          ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Background     ,Silver Locket         ,1        ,Your Notebook,"A small silver locket, slightly tarnished from wear; on the inside of the locket is an inscription: ""My strength. My heart. My life. G & P."""
+Chapter 2,Grim Fawley - Background     ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Background     ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Background     ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Background     ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Background     ,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Ministry Record,Redacted Report       ,1        ,Your Notebook,Highly redacted official incident report. A thorough reading of the report shows that Grim Fawley appears to have come to the rescue of Ministry Watchwizard Eric Munch in the Department of Mysteries' Brain Room.
+Chapter 2,Grim Fawley - Ministry Record,Unspeakables Expanding,1        ,Your Notebook,"An issue of the Quibbler, its headline reading ""The Unspeakables Expand in Secret! What Are They Hiding?"" The issue is dated around the time Grim Fawley was promoted."
+Chapter 2,Grim Fawley - Ministry Record,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Ministry Record,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Ministry Record,                      ,1        ,             ,
+Chapter 2,Grim Fawley - Ministry Record,                      ,5        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,
+Chapter 3,Penelope Fawley - Background ,                      ,1        ,             ,

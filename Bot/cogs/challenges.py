@@ -2,12 +2,13 @@
 import logging
 from typing import List
 
-from Bot import load_colour
-from Bot.cogs import get_message
-from Database.database import Challenge
 from discord import Embed
 from discord.ext import commands
 from pony.orm import db_session
+
+from Bot import load_colour
+from Bot.cogs import get_message
+from Database.database import Challenge, Threat, Room
 
 LOGGER = logging.getLogger(__name__)
 
@@ -36,19 +37,18 @@ def page_embed(foundables: List[Challenge], author_name: str, author_icon_url: s
 
 
 def foundable_embed(foundable: Challenge, author_name: str, author_icon_url: str) -> Embed:
-    colour = foundable.threat.get_colour() if foundable.threat else '000000'
     embed = Embed(
         title='Challenge Foundable Found',
-        colour=load_colour(colour),
+        colour=load_colour(Threat.FORTRESS.colour_code),
         description=f"```{foundable.description}```" if foundable.description else None
     )
 
     embed.add_field(name='Family', value=foundable.family)
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
-    embed.add_field(name='Threat', value=foundable.threat.get_name() if foundable.threat else '~~Classified~~')
-    embed.add_field(name='Fragments', value='/'.join(
-        [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Threat', value=Threat.FORTRESS.get_name())
+    embed.add_field(name='Fragments', value='/'.join([str(i) for i in Threat.FORTRESS.fragments]))
+    embed.add_field(name='Rooms', value=', '.join([x.get_name() for x in foundable.get_rooms()]))
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
 
     image_name = '/'.join([x.replace('\'/:,', '') for x in [foundable.page, foundable.name]]) \
@@ -149,6 +149,39 @@ class ChallengesCog(commands.Cog, name='Challenges Registry'):
             else:
                 LOGGER.warning(f"Unable to find `{search}` in the Challenge Registry")
                 await ctx.send(f"Unable to find `{search}` in the Challenge Registry")
+
+    @commands.command(
+        name='Challenge-Room',
+        description='Returns an embed with the names of all the Foundables in the search for Room/s.',
+        usage='[Name of Room]'
+    )
+    async def room_search(self, ctx):
+        search = Room.find_by_name(get_message(ctx).replace(' ', '_'))
+        LOGGER.info(f"Looking up Room: `{search}`")
+
+        if not search:
+            LOGGER.warning(f"Unable to find `{search}` in the Room List")
+            await ctx.send(f"Unable to find `{search}` in the Room List")
+            return
+
+        with db_session:
+            found = Challenge.select().order_by(Challenge.family, Challenge.page, Challenge.name)[:]
+            filtered = set()
+            for item in found:
+                if search in item.get_rooms():
+                    filtered.add(item)
+            items = {}
+            for item in filtered:
+                name = item.page.replace('I', '')
+                if name not in items:
+                    items[name] = []
+                items[name].append(item)
+            for key, page in items.items():
+                await ctx.send(embed=page_embed(
+                    foundables=page,
+                    author_name=ctx.message.author.name,
+                    author_icon_url=ctx.message.author.avatar_url
+                ))
 
 
 def setup(bot):

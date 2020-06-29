@@ -36,7 +36,7 @@ def family_embed(foundables: List[Event], author_name: str, author_icon_url: str
 
 
 def foundable_embed(foundable: Event, author_name: str, author_icon_url: str) -> Embed:
-    colour = foundable.method.get_colour() if foundable.method else foundable.threat.get_colour() if foundable.threat else '000000'
+    colour = foundable.method.colour_code if foundable.method else foundable.threat.colour_code if foundable.threat else '000000'
     embed = Embed(
         title='Event Foundable Found',
         colour=load_colour(colour),
@@ -48,8 +48,8 @@ def foundable_embed(foundable: Event, author_name: str, author_icon_url: str) ->
     embed.add_field(name='Name', value=foundable.name)
     embed.add_field(name='Threat', value=foundable.threat.get_name() if foundable.threat else '~~Classified~~')
     embed.add_field(name='Method', value=foundable.method.get_name() if foundable.method else '~~Classified~~')
-    embed.add_field(name='Fragments', value=foundable.method.get_fragments() if foundable.method else '/'.join(
-        [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Fragments', value=foundable.method.fragments if foundable.method else '/'.join(
+        [str(i) for i in foundable.threat.fragments]) if foundable.threat else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
 
     image_name = '/'.join([x.replace('\'/:,', '') for x in [foundable.family, foundable.name]]) \

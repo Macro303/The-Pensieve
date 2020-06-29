@@ -2,12 +2,13 @@
 import logging
 from typing import List
 
-from Bot import load_colour
-from Bot.cogs import get_message
-from Database.database import Exploration
 from discord import Embed
 from discord.ext import commands
 from pony.orm import db_session
+
+from Bot import load_colour
+from Bot.cogs import get_message
+from Database.database import Exploration
 
 LOGGER = logging.getLogger(__name__)
 
@@ -36,7 +37,7 @@ def family_embed(foundables: List[Exploration], author_name: str, author_icon_ur
 
 
 def foundable_embed(foundable: Exploration, author_name: str, author_icon_url: str) -> Embed:
-    colour = foundable.threat.get_colour() if foundable.threat else '000000'
+    colour = foundable.threat.colour_code if foundable.threat else '000000'
     embed = Embed(
         title='Exploration Foundable Found',
         colour=load_colour(colour),
@@ -47,8 +48,9 @@ def foundable_embed(foundable: Exploration, author_name: str, author_icon_url: s
     embed.add_field(name='Page', value=foundable.page)
     embed.add_field(name='Name', value=foundable.name)
     embed.add_field(name='Threat', value=foundable.threat.get_name() if foundable.threat else '~~Classified~~')
-    embed.add_field(name='Fragments', value='/'.join(
-        [str(i) for i in foundable.threat.get_fragments()]) if foundable.threat else '~~Classified~~')
+    embed.add_field(name='Fragments',
+                    value='/'.join([str(i) for i in foundable.threat.fragments])
+                    if foundable.threat else '~~Classified~~')
     embed.add_field(name='Returned To', value=foundable.returned if foundable.returned else '~~Classified~~')
 
     image_name = '/'.join([x.replace('\'/:,', '') for x in [foundable.family, foundable.name]]) \

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import logging
-from enum import Enum
-from typing import Optional as Opt, Tuple
+from enum import Enum, auto
+from typing import Optional as Opt, List
 from uuid import UUID, uuid4
 
 from pony.orm import Database, db_session, PrimaryKey, Required, Optional, composite_key
@@ -11,12 +11,22 @@ db = Database()
 
 
 class Threat(Enum):
-    FORTRESS = 0
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
-    SEVERE = 4
-    EMERGENCY = 5
+    FORTRESS = auto(), (7, 14, 21, 25), '333333'
+    LOW = auto(), (15, 25, 38, 55), 'DDDDDD'
+    MEDIUM = auto(), (12, 20, 30, 45), 'FFD700'
+    HIGH = auto(), (9, 15, 22, 30), 'FF8C00'
+    SEVERE = auto(), (5, 10, 13, 18), 'FF4500'
+    EMERGENCY = auto(), (3, 5, 7, 10), 'FF6347'
+
+    def __new__(cls, value, fragments, colour_code):
+        member = object.__new__(cls)
+        member._value_ = value
+        member.fragments = fragments
+        member.colour_code = colour_code
+        return member
+
+    def __int__(self):
+        return self.value
 
     @classmethod
     def find_by_name(cls, name: Opt[str]):
@@ -28,34 +38,6 @@ class Threat(Enum):
         if name.lower() == 'blank':
             return Threat.FORTRESS
 
-    def get_fragments(self) -> Tuple[int, int, int, int]:
-        if self == Threat.FORTRESS:
-            return 7, 14, 21, 25
-        elif self == Threat.LOW:
-            return 15, 25, 38, 55
-        elif self == Threat.MEDIUM:
-            return 12, 20, 30, 45
-        elif self == Threat.HIGH:
-            return 9, 15, 22, 30
-        elif self == Threat.SEVERE:
-            return 5, 10, 13, 18
-        elif self == Threat.EMERGENCY:
-            return 3, 5, 7, 10
-
-    def get_colour(self) -> str:
-        if self == Threat.FORTRESS:
-            return '333333'
-        elif self == Threat.LOW:
-            return 'DDDDDD'
-        elif self == Threat.MEDIUM:
-            return 'FFD700'
-        elif self == Threat.HIGH:
-            return 'FF8C00'
-        elif self == Threat.SEVERE:
-            return 'FF4500'
-        elif self == Threat.EMERGENCY:
-            return 'FF6347'
-
     def get_name(self) -> str:
         if self == Threat.FORTRESS:
             return '*Blank*'
@@ -63,10 +45,20 @@ class Threat(Enum):
 
 
 class Method(Enum):
-    ENCOUNTER = 0
-    PORTKEY = 1
-    FORTRESS = 2
-    TASK = 3
+    ENCOUNTER = auto(), 15, 'FFD700'
+    PORTKEY = auto(), 5, 'FF8C00'
+    FORTRESS = auto(), 3, 'FF4500'
+    TASK = auto(), 1, 'FF6347'
+
+    def __new__(cls, value, fragments, colour_code):
+        member = object.__new__(cls)
+        member._value_ = value
+        member.fragments = fragments
+        member.colour_code = colour_code
+        return member
+
+    def __int__(self):
+        return self.value
 
     @classmethod
     def find_by_name(cls, name: Opt[str]):
@@ -76,28 +68,51 @@ class Method(Enum):
             if name.lower() == value.lower():
                 return entry
 
-    def get_fragments(self) -> int:
-        if self == Method.ENCOUNTER:
-            return 15
-        elif self == Method.PORTKEY:
-            return 5
-        elif self == Method.FORTRESS:
-            return 3
-        elif self == Method.TASK:
-            return 1
-
-    def get_colour(self) -> str:
-        if self == Method.ENCOUNTER:
-            return 'FFD700'
-        elif self == Method.PORTKEY:
-            return 'FF8C00'
-        elif self == Method.FORTRESS:
-            return 'FF4500'
-        elif self == Method.TASK:
-            return 'FF6347'
-
     def get_name(self) -> str:
         return self.name.title()
+
+
+class Room(Enum):
+    RUINS_CHAMBER_I = 0, 'Ruins Chamber I'
+    RUINS_CHAMBER_II = 1, 'Ruins Chamber II'
+    RUINS_CHAMBER_III = 2, 'Ruins Chamber III'
+    RUINS_CHAMBER_IV = 3, 'Ruins Chamber IV'
+    RUINS_CHAMBER_V = 4, 'Ruins Chamber V'
+    TOWER_CHAMBER_I = 5, 'Tower Chamber I'
+    TOWER_CHAMBER_II = 6, 'Tower Chamber II'
+    TOWER_CHAMBER_III = 7, 'Tower Chamber III'
+    TOWER_CHAMBER_IV = 8, 'Tower Chamber IV'
+    TOWER_CHAMBER_V = 9, 'Tower Chamber V'
+    FOREST_CHAMBER_I = 10, 'Forest Chamber I'
+    FOREST_CHAMBER_II = 11, 'Forest Chamber II'
+    FOREST_CHAMBER_III = 12, 'Forest Chamber III'
+    FOREST_CHAMBER_IV = 13, 'Forest Chamber IV'
+    FOREST_CHAMBER_V = 14, 'Forest Chamber V'
+    DARK_CHAMBER_I = 15, 'Dark Chamber I'
+    DARK_CHAMBER_II = 16, 'Dark Chamber II'
+    DARK_CHAMBER_III = 17, 'Dark Chamber III'
+    DARK_CHAMBER_IV = 18, 'Dark Chamber IV'
+    DARK_CHAMBER_V = 19, 'Dark Chamber V'
+
+    def __new__(cls, value, clean_name):
+        member = object.__new__(cls)
+        member._value_ = value
+        member.clean_name = clean_name
+        return member
+
+    def __int__(self):
+        return self.value
+
+    @classmethod
+    def find_by_name(cls, name: Opt[str]):
+        if not name:
+            return None
+        for value, entry in cls.__members__.items():
+            if name.lower() == value.lower():
+                return entry
+
+    def get_name(self) -> str:
+        return self.clean_name
 
 
 class Exploration(db.Entity):
@@ -146,29 +161,47 @@ class Challenge(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    threat = Optional(Threat, nullable=True)
+    min_room = Optional(Room, nullable=True)
+    max_room = Optional(Room, nullable=True)
     returned = Optional(str, nullable=True)
     description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
 
     @classmethod
-    def create_or_update(cls, family: str, page: str, name: str, threat: Threat, returned: Opt[str] = None,
-                         description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, min_room: Room, max_room: Room,
+                         returned: Opt[str] = None, description: Opt[str] = None):
         with db_session:
             found = cls.get(family=family, page=page, name=name)
             if found:
-                if threat and found.threat != threat:
-                    found.threat = threat
+                if min_room and found.min_room != min_room:
+                    found.min_room = min_room
+                if max_room and found.max_room != max_room:
+                    found.max_room = max_room
                 if returned and found.returned != returned:
                     found.returned = returned
                 if description and found.description != description:
                     found.description = description
             else:
-                cls(family=family, page=page, name=name, threat=threat, returned=returned, description=description)
+                cls(family=family, page=page, name=name, min_room=min_room, max_room=max_room, returned=returned,
+                    description=description)
                 LOGGER.info(f"Created Challenge Entry: {family}, {page}, {name}")
                 return cls.get(family=family, page=page, name=name)
             return found
+
+    def get_rooms(self) -> List[Room]:
+        if self.min_room:
+            min_index = int(self.min_room)
+        else:
+            min_index = 0
+        if self.max_room:
+            max_index = int(self.max_room) + 1
+        else:
+            max_index = 0
+        names = set()
+        for index in range(min_index, max_index):
+            names.add(Room(index))
+        return sorted(names, key=lambda x: int(x))
 
     def __str__(self) -> str:
         return 'Challenge(' + \
@@ -176,7 +209,8 @@ class Challenge(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"threat={self.threat}, " + \
+               f"min_room={self.min_room}, " + \
+               f"max_room={self.max_room}, " + \
                f"returned={self.returned}, " + \
                f"description={self.description}" + \
                ')'
