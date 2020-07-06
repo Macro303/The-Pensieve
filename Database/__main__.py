@@ -6,7 +6,7 @@ from argparse import ArgumentParser, Namespace
 from pony.orm import db_session
 
 from Database import TOP_DIR
-from Database.database import Threat, Exploration, Room, Challenge, Mystery, Method, Event
+from Database.database import Threat, Exploration, Chamber, Challenge, Mystery, Method, Event
 from Logger import init_logger
 
 LOGGER = logging.getLogger(__name__)
@@ -30,6 +30,9 @@ def main():
     create_challenges_registry()
     if args.tables:
         Challenge.select().show(width=175)
+    create_chambers_registry()
+    if args.tables:
+        Chamber.select().show(width=175)
     create_mysteries_registry()
     if args.tables:
         Mystery.select().show(width=175)
@@ -82,10 +85,25 @@ def create_challenges_registry():
                     family=row['Family'].strip(),
                     page=row['Page'].strip(),
                     name=row['Name'].strip(),
-                    min_room=Room.find_by_name(row['Min Room'].strip().replace(' ', '_')),
-                    max_room=Room.find_by_name(row['Max Room'].strip().replace(' ', '_')),
                     returned=returned,
                     description=description
+                )
+
+
+def create_chambers_registry():
+    with open(DATA_DIR.joinpath('Registry - Chambers.csv'), mode='r') as csv_file:
+        headers = [h.strip() for h in csv_file.readline().split(',')]
+        csv_reader = csv.DictReader(csv_file, fieldnames=headers)
+        for row in csv_reader:
+            LOGGER.debug(row)
+            if row['Name'].strip() and row['Exp'].strip():
+                challenge_names = [it.strip() for it in row['Challenge List'].strip().split('|')]
+                challenges = [Challenge.get(name=it) for it in challenge_names]
+                Chamber.create_or_update(
+                    name=row['Name'].strip(),
+                    exp=int(row['Exp'].strip()),
+                    challenge_exp=int(row['Challenge Exp'].strip()),
+                    challenges=challenges
                 )
 
 

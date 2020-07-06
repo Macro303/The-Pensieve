@@ -7,7 +7,7 @@ from Logger import init_logger
 from discord.ext import commands
 
 LOGGER = logging.getLogger(__name__)
-COGS = ['Bot.cogs.exploration', 'Bot.cogs.challenges', 'Bot.cogs.events', 'Bot.cogs.mysteries', 'Bot.cogs.help']
+COGS = ['Bot.cogs.family', 'Bot.cogs.page', 'Bot.cogs.foundable', 'Bot.cogs.chamber', 'Bot.cogs.help']
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(CONFIG['Prefix']), case_insensitive=True)
 
 

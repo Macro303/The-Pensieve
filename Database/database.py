@@ -4,7 +4,7 @@ from enum import Enum, auto
 from typing import Optional as Opt, List
 from uuid import UUID, uuid4
 
-from pony.orm import Database, db_session, PrimaryKey, Required, Optional, composite_key
+from pony.orm import Database, db_session, PrimaryKey, Required, Optional, composite_key, Set
 
 LOGGER = logging.getLogger(__name__)
 db = Database()
@@ -72,49 +72,6 @@ class Method(Enum):
         return self.name.title()
 
 
-class Room(Enum):
-    RUINS_CHAMBER_I = 0, 'Ruins Chamber I'
-    RUINS_CHAMBER_II = 1, 'Ruins Chamber II'
-    RUINS_CHAMBER_III = 2, 'Ruins Chamber III'
-    RUINS_CHAMBER_IV = 3, 'Ruins Chamber IV'
-    RUINS_CHAMBER_V = 4, 'Ruins Chamber V'
-    TOWER_CHAMBER_I = 5, 'Tower Chamber I'
-    TOWER_CHAMBER_II = 6, 'Tower Chamber II'
-    TOWER_CHAMBER_III = 7, 'Tower Chamber III'
-    TOWER_CHAMBER_IV = 8, 'Tower Chamber IV'
-    TOWER_CHAMBER_V = 9, 'Tower Chamber V'
-    FOREST_CHAMBER_I = 10, 'Forest Chamber I'
-    FOREST_CHAMBER_II = 11, 'Forest Chamber II'
-    FOREST_CHAMBER_III = 12, 'Forest Chamber III'
-    FOREST_CHAMBER_IV = 13, 'Forest Chamber IV'
-    FOREST_CHAMBER_V = 14, 'Forest Chamber V'
-    DARK_CHAMBER_I = 15, 'Dark Chamber I'
-    DARK_CHAMBER_II = 16, 'Dark Chamber II'
-    DARK_CHAMBER_III = 17, 'Dark Chamber III'
-    DARK_CHAMBER_IV = 18, 'Dark Chamber IV'
-    DARK_CHAMBER_V = 19, 'Dark Chamber V'
-
-    def __new__(cls, value, clean_name):
-        member = object.__new__(cls)
-        member._value_ = value
-        member.clean_name = clean_name
-        return member
-
-    def __int__(self):
-        return self.value
-
-    @classmethod
-    def find_by_name(cls, name: Opt[str]):
-        if not name:
-            return None
-        for value, entry in cls.__members__.items():
-            if name.lower() == value.lower():
-                return entry
-
-    def get_name(self) -> str:
-        return self.clean_name
-
-
 class Exploration(db.Entity):
     uuid = PrimaryKey(UUID, default=uuid4)
     family = Required(str)
@@ -125,6 +82,11 @@ class Exploration(db.Entity):
     description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
+
+    def get_colour(self) -> str:
+        if self.threat:
+            return self.threat.colour_code
+        return '4682B4'
 
     @classmethod
     def create_or_update(cls, family: str, page: str, name: str, threat: Opt[Threat], returned: Opt[str] = None,
@@ -161,47 +123,30 @@ class Challenge(db.Entity):
     family = Required(str)
     page = Required(str)
     name = Required(str)
-    min_room = Optional(Room, nullable=True)
-    max_room = Optional(Room, nullable=True)
     returned = Optional(str, nullable=True)
     description = Optional(str, nullable=True)
+    chambers = Set('Chamber')
 
     composite_key(family, page, name)
 
+    def get_colour(self) -> str:
+        return Threat.FORTRESS.colour_code
+
     @classmethod
-    def create_or_update(cls, family: str, page: str, name: str, min_room: Room, max_room: Room,
-                         returned: Opt[str] = None, description: Opt[str] = None):
+    def create_or_update(cls, family: str, page: str, name: str, returned: Opt[str] = None,
+                         description: Opt[str] = None):
         with db_session:
             found = cls.get(family=family, page=page, name=name)
             if found:
-                if min_room and found.min_room != min_room:
-                    found.min_room = min_room
-                if max_room and found.max_room != max_room:
-                    found.max_room = max_room
                 if returned and found.returned != returned:
                     found.returned = returned
                 if description and found.description != description:
                     found.description = description
             else:
-                cls(family=family, page=page, name=name, min_room=min_room, max_room=max_room, returned=returned,
-                    description=description)
+                cls(family=family, page=page, name=name, returned=returned, description=description)
                 LOGGER.info(f"Created Challenge Entry: {family}, {page}, {name}")
                 return cls.get(family=family, page=page, name=name)
             return found
-
-    def get_rooms(self) -> List[Room]:
-        if self.min_room:
-            min_index = int(self.min_room)
-        else:
-            min_index = 0
-        if self.max_room:
-            max_index = int(self.max_room) + 1
-        else:
-            max_index = 0
-        names = set()
-        for index in range(min_index, max_index):
-            names.add(Room(index))
-        return sorted(names, key=lambda x: int(x))
 
     def __str__(self) -> str:
         return 'Challenge(' + \
@@ -209,10 +154,45 @@ class Challenge(db.Entity):
                f"family={self.family}, " + \
                f"page={self.page}, " + \
                f"name={self.name}, " + \
-               f"min_room={self.min_room}, " + \
-               f"max_room={self.max_room}, " + \
                f"returned={self.returned}, " + \
                f"description={self.description}" + \
+               ')'
+
+
+class Chamber(db.Entity):
+    uuid = PrimaryKey(UUID, default=uuid4)
+    name = Required(str)
+    exp = Required(int)
+    challenge_exp = Required(int)
+    challenges = Set('Challenge')
+
+    def get_colour(self) -> str:
+        return '4682B4'
+
+    @classmethod
+    def create_or_update(cls, name: str, exp: int, challenge_exp: int, challenges: List[Challenge]):
+        with db_session:
+            found = cls.get(name=name)
+            if found:
+                if exp and found.exp != exp:
+                    found.exp = exp
+                if challenge_exp and found.challenge_exp != challenge_exp:
+                    found.challenge_exp = challenge_exp
+                if challenges and found.challenges != challenges:
+                    found.challenges = challenges
+            else:
+                cls(name=name, exp=exp, challenge_exp=challenge_exp, challenges=challenges)
+                LOGGER.info(f"Created Chamber Entry: {name}")
+                return cls.get(name=name)
+            return found
+
+    def __str__(self) -> str:
+        return 'Chamber(' + \
+               f"uuid={self.uuid}, " + \
+               f"name={self.name}, " + \
+               f"exp={self.exp}, " + \
+               f"challenge_exp={self.challenge_exp}, " + \
+               f"challenges={self.challenges}" + \
                ')'
 
 
@@ -226,6 +206,9 @@ class Mystery(db.Entity):
     description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
+
+    def get_colour(self) -> str:
+        return '4682B4'
 
     @classmethod
     def create_or_update(cls, family: str, page: str, name: str, fragments: int, returned: Opt[str] = None,
@@ -269,6 +252,13 @@ class Event(db.Entity):
     description = Optional(str, nullable=True)
 
     composite_key(family, page, name)
+
+    def get_colour(self) -> str:
+        if self.threat:
+            return self.threat.colour_code
+        if self.method:
+            return self.method.colour_code
+        return '4682B4'
 
     @classmethod
     def create_or_update(cls, family: str, page: str, name: str, threat: Opt[Threat] = None, method: Opt[Method] = None,
