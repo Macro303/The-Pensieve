@@ -96,13 +96,13 @@ def create_chambers_registry():
         csv_reader = csv.DictReader(csv_file, fieldnames=headers)
         for row in csv_reader:
             LOGGER.debug(row)
-            if row['Name'].strip() and row['Exp'].strip():
-                challenge_names = [it.strip() for it in row['Challenge List'].strip().split('|')]
-                challenges = [Challenge.get(name=it) for it in challenge_names]
+            if row['Name'].strip():
+                challenge_list = [Challenge.get(name=it.strip()) for it in row['Challenge List'].strip().split('|') if it]
+                challenges = [x for x in challenge_list if x]
                 Chamber.create_or_update(
                     name=row['Name'].strip(),
-                    exp=int(row['Exp'].strip()),
-                    challenge_exp=int(row['Challenge Exp'].strip()),
+                    exp=row['Exp'].strip() or None,
+                    challenge_exp=row['Challenge Exp'].strip() or None,
                     challenges=challenges
                 )
 

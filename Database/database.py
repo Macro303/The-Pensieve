@@ -162,21 +162,21 @@ class Challenge(db.Entity):
 class Chamber(db.Entity):
     uuid = PrimaryKey(UUID, default=uuid4)
     name = Required(str)
-    exp = Required(int)
-    challenge_exp = Required(int)
+    exp = Optional(int, nullable=True)
+    challenge_exp = Optional(int, nullable=True)
     challenges = Set('Challenge')
 
     def get_colour(self) -> str:
         return '4682B4'
 
     @classmethod
-    def create_or_update(cls, name: str, exp: int, challenge_exp: int, challenges: List[Challenge]):
+    def create_or_update(cls, name: str, exp: Opt[int], challenge_exp: Opt[int], challenges: List[Challenge]):
         with db_session:
             found = cls.get(name=name)
             if found:
-                if exp and found.exp != exp:
+                if found.exp != exp:
                     found.exp = exp
-                if challenge_exp and found.challenge_exp != challenge_exp:
+                if found.challenge_exp != challenge_exp:
                     found.challenge_exp = challenge_exp
                 if challenges and found.challenges != challenges:
                     found.challenges = challenges

@@ -15,8 +15,8 @@ LOGGER = logging.getLogger(__name__)
 def cog_embed(chamber: Chamber, author_name: str, author_icon_url: str) -> Embed:
     embed = Embed(title=chamber.name, colour=load_colour(chamber.get_colour()))
 
-    embed.add_field(name='Exp', value=chamber.exp)
-    embed.add_field(name='Challenge Exp', value=chamber.challenge_exp)
+    embed.add_field(name='Exp', value=chamber.exp if chamber.exp else '~~Classified~~')
+    embed.add_field(name='Challenge Exp', value=chamber.challenge_exp if chamber.challenge_exp else '~~Classified~~')
 
     pages = {}
     for item in chamber.challenges:
@@ -24,7 +24,7 @@ def cog_embed(chamber: Chamber, author_name: str, author_icon_url: str) -> Embed
             pages[item.page] = []
         pages[item.page].append(item.name)
     for page, items in pages.items():
-        embed.add_field(name=page, value=' - ' + ('\n - '.join(items)))
+        embed.add_field(name=f"Rewards: {page}", value=' - ' + ('\n - '.join(items)))
 
     embed.set_footer(
         text=f"Requested by {author_name} | Icons from https://github.com/Macro303/The-Pensieve",
