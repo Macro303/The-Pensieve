@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+from typing import Any
 
 from discord import Embed
 from discord.ext import commands
