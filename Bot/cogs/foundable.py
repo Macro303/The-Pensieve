@@ -30,7 +30,7 @@ def cog_embed(foundable: Any, author_name: str, author_icon_url: str) -> Embed:
     elif isinstance(foundable, Challenge):
         embed.add_field(name='Threat', value=Threat.FORTRESS.get_name())
         embed.add_field(name='Fragments', value='/'.join([str(x) for x in Threat.FORTRESS.fragments]))
-        embed.add_field(name='Chambers', value=', '.join([str(x) for x in foundable.chambers]) if foundable.chambers else '~~Classified~~')
+        embed.add_field(name='Chambers', value=', '.join([x.name for x in foundable.chambers]) if foundable.chambers else '~~Classified~~')
     elif isinstance(foundable, Mystery):
         embed.add_field(name='Fragments', value=foundable.fragments)
     elif isinstance(foundable, Event):
