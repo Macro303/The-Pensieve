@@ -19,7 +19,7 @@ To add this bot to your server follow this [Link](https://discord.com/api/oauth2
 ## Built Using
  - Python 3.8.3
  - pip 20.1.1
- - discord.py 1.3.3
+ - discord.py 1.3.4
  - PyYAML 5.3.1
  - pony 0.7.13
 
