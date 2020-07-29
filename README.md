@@ -17,11 +17,12 @@ Current Commands _Searches all registries (Exploration, Challenges, Mysteries, E
 To add this bot to your server follow this [Link](https://discord.com/api/oauth2/authorize?client_id=723013744808165438&permissions=67464256&scope=bot)
 
 ## Built Using
- - Python 3.8.3
- - pip 20.1.1
- - discord.py 1.3.4
- - PyYAML 5.3.1
- - pony 0.7.13
+ - [Python: 3.8.5](https://www.python.org/)
+ - [pip: 20.1.1](https://pypi.org/project/pip/)
+ - [PyInstaller: 3.6](https://pypi.org/project/PyInstaller/)
+ - [discord.py: 1.3.4](https://pypi.org/project/discord.py/)
+ - [PyYAML: 5.3.1](https://pypi.org/project/PyYAML/)
+ - [pony: 0.7.13](https://pypi.org/project/pony/)
 
 ## Execution
 Update `config.yaml` to add your Discord Token and other settings
@@ -35,5 +36,5 @@ $ python -m Database
 ```
 
 ## Socials
-[![Discord | Wizards Unite - Wellington](https://discord.com/api/v6/guilds/577714667535728670/widget.png?style=banner2)](https://discord.gg/dy3ZhkT)
 [![Discord | The Playground](https://discord.com/api/v6/guilds/618581423070117932/widget.png?style=banner2)](https://discord.gg/nqGMeGg)
+[![Discord | Wizards Unite - Wellington](https://discord.com/api/v6/guilds/577714667535728670/widget.png?style=banner2)](https://discord.gg/dy3ZhkT)
