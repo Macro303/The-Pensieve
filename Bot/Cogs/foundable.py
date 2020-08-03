@@ -7,7 +7,6 @@ from discord.ext import commands
 from pony.orm import db_session
 
 from Bot import load_colour
-from Bot.cogs import get_message
 from Database.database import Exploration, Challenge, Mystery, Event, Threat
 
 LOGGER = logging.getLogger(__name__)
@@ -26,19 +25,23 @@ def cog_embed(foundable: Any, author_name: str, author_icon_url: str) -> Embed:
 
     if isinstance(foundable, Exploration):
         embed.add_field(name='Threat', value=foundable.threat.get_name() if foundable.threat else '~~Classified~~')
-        embed.add_field(name='Fragments', value='/'.join([str(x) for x in foundable.threat.fragments]) if foundable.threat else '~~Classified~~')
+        embed.add_field(name='Fragments', value='/'.join(
+            [str(x) for x in foundable.threat.fragments]) if foundable.threat else '~~Classified~~')
     elif isinstance(foundable, Challenge):
         embed.add_field(name='Threat', value=Threat.FORTRESS.get_name())
         embed.add_field(name='Fragments', value='/'.join([str(x) for x in Threat.FORTRESS.fragments]))
-        embed.add_field(name='Chambers', value=', '.join([x.name for x in foundable.chambers]) if foundable.chambers else '~~Classified~~')
+        embed.add_field(name='Chambers', value=', '.join(
+            [x.name for x in foundable.chambers]) if foundable.chambers else '~~Classified~~')
     elif isinstance(foundable, Mystery):
         embed.add_field(name='Fragments', value=foundable.fragments)
     elif isinstance(foundable, Event):
         embed.add_field(name='Threat', value=foundable.threat.get_name() if foundable.threat else '~~Classified~~')
         embed.add_field(name='Method', value=foundable.method.get_name() if foundable.method else '~~Classified~~')
-        embed.add_field(name='Fragments', value=foundable.method.fragments if foundable.method else '/'.join([str(i) for i in foundable.threat.fragments]) if foundable.threat else '~~Classified~~')
+        embed.add_field(name='Fragments', value=foundable.method.fragments if foundable.method else '/'.join(
+            [str(i) for i in foundable.threat.fragments]) if foundable.threat else '~~Classified~~')
 
-    image_name = '/'.join([x.replace('\'/:,!', '') for x in [foundable.family, foundable.page, foundable.name]]).replace(' ', '-').lower()
+    image_name = '/'.join(
+        [x.replace('\'/:,!', '') for x in [foundable.family, foundable.page, foundable.name]]).replace(' ', '-').lower()
     url = f"https://raw.githubusercontent.com/Macro303/The-Pensieve/main/Resources/Images/{image_name}.png"
     LOGGER.debug(f"Image URL: {url}")
     embed.set_thumbnail(url=url)
