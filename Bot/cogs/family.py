@@ -6,7 +6,6 @@ from discord import Embed
 from discord.ext import commands
 from pony.orm import db_session
 
-from Bot.cogs import get_message
 from Database.database import Exploration, Challenge, Mystery, Event
 
 LOGGER = logging.getLogger(__name__)
@@ -39,52 +38,21 @@ class FamilyCog(commands.Cog, name='Registry Families'):
         description='Returns an embed with the pages and foundables in the searched for Family/s in the Registry.',
         usage='[Name of Family]'
     )
-    async def family_search(self, ctx):
-        search = get_message(ctx)
-        LOGGER.info(f"Looking up Family: `{search}`")
-
-        if not search:
-            LOGGER.warning(f"Unable to find the `{search}` family in the Registry")
-            await ctx.send(f"Unable to find the `{search}` family in the Registry")
-            return
-        if len(search) < 3:
-            LOGGER.warning('Your search is too short, must be longer than 3 characters')
-            await ctx.send('Your search is too short, must be longer than 3 characters')
-            return
-
+    async def family_search(self, ctx, name: str):
+        registries = [Exploration, Challenge, Mystery, Event]
         with db_session:
-            found = [
-                *Exploration.select(lambda x: search.lower() == x.family.lower())
-                    .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                *Challenge.select(lambda x: search.lower() == x.family.lower())
-                    .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                *Mystery.select(lambda x: search.lower() == x.family.lower())
-                    .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                *Event.select(lambda x: search.lower() == x.family.lower())
-                    .order_by(Event.family, Event.page, Event.name)[:],
-            ]
+            found = []
+            for registry in registries:
+                found.append(*registry.select(lambda x: name.lower() == x.family.lower())
+                             .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
-                found = [
-                    *Exploration.select(lambda x: search.lower() in x.family.lower())
-                        .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                    *Challenge.select(lambda x: search.lower() in x.family.lower())
-                        .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                    *Mystery.select(lambda x: search.lower() in x.family.lower())
-                        .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                    *Event.select(lambda x: search.lower() in x.family.lower())
-                        .order_by(Event.family, Event.page, Event.name)[:],
-                ]
+                for registry in registries:
+                    found.append(*registry.select(lambda x: name.lower() in x.family.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
-                found = [
-                    *Exploration.select(lambda x: x.family.lower() in search.lower())
-                        .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                    *Challenge.select(lambda x: x.family.lower() in search.lower())
-                        .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                    *Mystery.select(lambda x: x.family.lower() in search.lower())
-                        .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                    *Event.select(lambda x: x.family.lower() in search.lower())
-                        .order_by(Event.family, Event.page, Event.name)[:],
-                ]
+                for registry in registries:
+                    found.append(*registry.select(lambda x: x.family.lower() in name.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if found:
                 items = {}
                 for item in found:
@@ -98,8 +66,8 @@ class FamilyCog(commands.Cog, name='Registry Families'):
                         author_icon_url=ctx.message.author.avatar_url
                     ))
             else:
-                LOGGER.warning(f"Unable to find the `{search}` family in the Registry")
-                await ctx.send(f"Unable to find the `{search}` family in the Registry")
+                LOGGER.warning(f"Unable to find the `{name}` family in the Registry")
+                await ctx.send(f"Unable to find the `{name}` family in the Registry")
 
 
 def setup(bot):

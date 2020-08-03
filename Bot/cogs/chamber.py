@@ -6,7 +6,6 @@ from discord.ext import commands
 from pony.orm import db_session
 
 from Bot import load_colour
-from Bot.cogs import get_message
 from Database.database import Chamber
 
 LOGGER = logging.getLogger(__name__)
@@ -42,25 +41,13 @@ class ChamberCog(commands.Cog, name='Fortress Chambers'):
         description='Returns an embed with the searched for Chamber/s in the Fortress.',
         usage='[Name of Chamber]'
     )
-    async def chamber_search(self, ctx):
-        search = get_message(ctx)
-        LOGGER.info(f"Looking up Chamber: `{search}`")
-
-        if not search:
-            LOGGER.warning(f"Unable to find the `{search}` Chamber.")
-            await ctx.send(f"Unable to find the `{search}` Chamber.")
-            return
-        if len(search) < 3:
-            LOGGER.warning('Your search is too short, must be longer than 3 characters')
-            await ctx.send('Your search is too short, must be longer than 3 characters')
-            return
-
+    async def chamber_search(self, ctx, name: str):
         with db_session:
-            found = Chamber.select(lambda x: search.lower() == x.name.lower()).order_by(Chamber.name)[:]
+            found = Chamber.select(lambda x: name.lower() == x.name.lower()).order_by(Chamber.name)[:]
             if not found:
-                found = Chamber.select(lambda x: search.lower() in x.name.lower()).order_by(Chamber.name)[:]
+                found = Chamber.select(lambda x: name.lower() in x.name.lower()).order_by(Chamber.name)[:]
             if not found:
-                found = Chamber.select(lambda x: x.name.lower() in search.lower()).order_by(Chamber.name)[:]
+                found = Chamber.select(lambda x: x.name.lower() in name.lower()).order_by(Chamber.name)[:]
             if found:
                 for item in found:
                     await ctx.send(embed=cog_embed(
@@ -69,8 +56,8 @@ class ChamberCog(commands.Cog, name='Fortress Chambers'):
                         author_icon_url=ctx.message.author.avatar_url
                     ))
             else:
-                LOGGER.warning(f"Unable to find the `{search}` Chamber.")
-                await ctx.send(f"Unable to find the `{search}` Chamber.")
+                LOGGER.warning(f"Unable to find the `{name}` Chamber.")
+                await ctx.send(f"Unable to find the `{name}` Chamber.")
 
 
 def setup(bot):

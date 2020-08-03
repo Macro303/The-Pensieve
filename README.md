@@ -18,7 +18,7 @@ To add this bot to your server follow this [Link](https://discord.com/api/oauth2
 
 ## Built Using
  - [Python: 3.8.5](https://www.python.org/)
- - [pip: 20.1.1](https://pypi.org/project/pip/)
+ - [pip: 20.2](https://pypi.org/project/pip/)
  - [PyInstaller: 3.6](https://pypi.org/project/PyInstaller/)
  - [discord.py: 1.3.4](https://pypi.org/project/discord.py/)
  - [PyYAML: 5.3.1](https://pypi.org/project/PyYAML/)
