@@ -62,8 +62,8 @@ class FamilyCog(commands.Cog, name='Registry Families'):
                 for key, family in items.items():
                     await ctx.send(embed=cog_embed(
                         items=family,
-                        author_name=ctx.message.author.name,
-                        author_icon_url=ctx.message.author.avatar_url
+                        author_name=ctx.author.name,
+                        author_icon_url=ctx.author.avatar_url
                     ))
             else:
                 LOGGER.warning(f"Unable to find the `{name}` family in the Registry")

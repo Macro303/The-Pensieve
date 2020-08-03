@@ -5,6 +5,7 @@
 [![Issues](https://img.shields.io/github/issues/Macro303/The-Pensieve.svg?style=flat-square)](https://github.com/Macro303/The-Pensieve/issues)
 [![Contributors](https://img.shields.io/github/contributors/Macro303/The-Pensieve.svg?style=flat-square)](https://github.com/Macro303/The-Pensieve/graphs/contributors)
 [![License](https://img.shields.io/github/license/Macro303/The-Pensieve.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Uptime](https://img.shields.io/uptimerobot/status/m785682938-98cc9448a2995b04745f10f9.svg?style=flat-square)](https://uptimerobot.com/dashboard.php)
 
 Simple bot to show stats and other useful information for **Harry Potter: Wizards Unite**.  
 Current Commands _Searches all registries (Exploration, Challenges, Mysteries, Events)_:
@@ -23,6 +24,7 @@ To add this bot to your server follow this [Link](https://discord.com/api/oauth2
  - [discord.py: 1.3.4](https://pypi.org/project/discord.py/)
  - [PyYAML: 5.3.1](https://pypi.org/project/PyYAML/)
  - [pony: 0.7.13](https://pypi.org/project/pony/)
+ - [flask: 1.1.2](https://pypi.org/project/flask/)
 
 ## Execution
 Update `config.yaml` to add your Discord Token and other settings
@@ -37,4 +39,4 @@ $ python -m Database
 
 ## Socials
 [![Discord | The Playground](https://discord.com/api/v6/guilds/618581423070117932/widget.png?style=banner2)](https://discord.gg/nqGMeGg)
-[![Discord | Wizards Unite - Wellington](https://discord.com/api/v6/guilds/577714667535728670/widget.png?style=banner2)](https://discord.gg/dy3ZhkT)
+ - Wizards Unite - Wellington [Discord Invite](https://discord.gg/dy3ZhkT)

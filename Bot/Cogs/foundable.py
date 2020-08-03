@@ -59,62 +59,31 @@ class FoundableCog(commands.Cog, name='Registry Foundables'):
         description='Returns an embed with the searched for Foundable/s in the Registry.',
         usage='[Name of Foundable]'
     )
-    async def foundable_search(self, ctx):
-        search = get_message(ctx)
-        LOGGER.info(f"Looking up Foundable: `{search}`")
-
-        if not search:
-            LOGGER.warning(f"Unable to find the `{search}` Foundable in the Registry")
-            await ctx.send(f"Unable to find the `{search}` Foundable in the Registry")
-            return
-        if len(search) < 3:
-            LOGGER.warning('Your search is too short, must be longer than 3 characters')
-            await ctx.send('Your search is too short, must be longer than 3 characters')
-            return
-
+    async def foundable_search(self, ctx, name: str):
+        registries = [Exploration, Challenge, Mystery, Event]
         with db_session:
-            found = [
-                *Exploration.select(lambda x: search.lower() == x.name.lower())
-                     .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                *Challenge.select(lambda x: search.lower() == x.name.lower())
-                     .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                *Mystery.select(lambda x: search.lower() == x.name.lower())
-                     .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                *Event.select(lambda x: search.lower() == x.name.lower())
-                     .order_by(Event.family, Event.page, Event.name)[:],
-            ]
+            found = []
+            for registry in registries:
+                found.append(*registry.select(lambda x: name.lower() == x.name.lower())
+                             .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
-                found = [
-                    *Exploration.select(lambda x: search.lower() in x.name.lower())
-                         .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                    *Challenge.select(lambda x: search.lower() in x.name.lower())
-                         .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                    *Mystery.select(lambda x: search.lower() in x.name.lower())
-                         .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                    *Event.select(lambda x: search.lower() in x.name.lower())
-                         .order_by(Event.family, Event.page, Event.name)[:],
-                ]
+                for registry in registries:
+                    found.append(*registry.select(lambda x: name.lower() in x.name.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
-                found = [
-                    *Exploration.select(lambda x: x.name.lower() in search.lower())
-                         .order_by(Exploration.family, Exploration.page, Exploration.name)[:],
-                    *Challenge.select(lambda x: x.name.lower() in search.lower())
-                         .order_by(Challenge.family, Challenge.page, Challenge.name)[:],
-                    *Mystery.select(lambda x: x.name.lower() in search.lower())
-                         .order_by(Mystery.family, Mystery.page, Mystery.name)[:],
-                    *Event.select(lambda x: x.name.lower() in search.lower())
-                         .order_by(Event.family, Event.page, Event.name)[:],
-                ]
+                for registry in registries:
+                    found.append(*registry.select(lambda x: x.name.lower() in name.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if found:
                 for foundable in found:
                     await ctx.send(embed=cog_embed(
                         foundable=foundable,
-                        author_name=ctx.message.author.name,
-                        author_icon_url=ctx.message.author.avatar_url
+                        author_name=ctx.author.name,
+                        author_icon_url=ctx.author.avatar_url
                     ))
             else:
-                LOGGER.warning(f"Unable to find the `{search}` Foundable in the Registry")
-                await ctx.send(f"Unable to find the `{search}` Foundable in the Registry")
+                LOGGER.warning(f"Unable to find the `{name}` Foundable in the Registry")
+                await ctx.send(f"Unable to find the `{name}` Foundable in the Registry")
 
 
 def setup(bot):
