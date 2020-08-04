@@ -19,6 +19,7 @@ class AdminCog(commands.Cog, name='Other Commands'):
         usage=''
     )
     async def help_command(self, ctx):
+        LOGGER.info('Loading Help menu')
         embed = Embed(
             title='The Pensieve Commands',
             description='*Responses from **The Pensieve** marked as ~~Classified~~ have incomplete information*'

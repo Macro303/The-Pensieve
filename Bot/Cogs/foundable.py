@@ -63,6 +63,7 @@ class FoundableCog(commands.Cog, name='Registry Foundables'):
         usage='[Name of Foundable]'
     )
     async def foundable_search(self, ctx, name: str):
+        LOGGER.info(f"Looking for Foundable: {name}")
         registries = [Exploration, Challenge, Mystery, Event]
         with db_session:
             found = []
@@ -84,6 +85,7 @@ class FoundableCog(commands.Cog, name='Registry Foundables'):
                         author_name=ctx.author.name,
                         author_icon_url=ctx.author.avatar_url
                     ))
+                await ctx.message.delete()
             else:
                 LOGGER.warning(f"Unable to find the `{name}` Foundable in the Registry")
                 await ctx.send(f"Unable to find the `{name}` Foundable in the Registry")

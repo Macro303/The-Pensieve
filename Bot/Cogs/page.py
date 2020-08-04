@@ -39,6 +39,7 @@ class PageCog(commands.Cog, name='Registry Pages'):
         usage='[Name of Page]'
     )
     async def page_search(self, ctx, name: str):
+        LOGGER.info(f"Looking for Page: {name}")
         registries = [Exploration, Challenge, Mystery, Event]
         with db_session:
             found = []
@@ -65,6 +66,7 @@ class PageCog(commands.Cog, name='Registry Pages'):
                         author_name=ctx.author.name,
                         author_icon_url=ctx.author.avatar_url
                     ))
+                await ctx.message.delete()
             else:
                 LOGGER.warning(f"Unable to find the `{name}` Page in the Registry")
                 await ctx.send(f"Unable to find the `{name}` Page in the Registry")

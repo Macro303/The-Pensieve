@@ -39,6 +39,7 @@ class FamilyCog(commands.Cog, name='Registry Families'):
         usage='[Name of Family]'
     )
     async def family_search(self, ctx, name: str):
+        LOGGER.info(f"Looking for Family: {name}")
         registries = [Exploration, Challenge, Mystery, Event]
         with db_session:
             found = []
@@ -65,6 +66,7 @@ class FamilyCog(commands.Cog, name='Registry Families'):
                         author_name=ctx.author.name,
                         author_icon_url=ctx.author.avatar_url
                     ))
+                await ctx.message.delete()
             else:
                 LOGGER.warning(f"Unable to find the `{name}` family in the Registry")
                 await ctx.send(f"Unable to find the `{name}` family in the Registry")

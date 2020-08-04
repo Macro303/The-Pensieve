@@ -42,6 +42,7 @@ class ChamberCog(commands.Cog, name='Fortress Chambers'):
         usage='[Name of Chamber]'
     )
     async def chamber_search(self, ctx, name: str):
+        LOGGER.info(f"Looking for Chamber: {name}")
         with db_session:
             found = Chamber.select(lambda x: name.lower() == x.name.lower()).order_by(Chamber.name)[:]
             if not found:
@@ -55,6 +56,7 @@ class ChamberCog(commands.Cog, name='Fortress Chambers'):
                         author_name=ctx.message.author.name,
                         author_icon_url=ctx.message.author.avatar_url
                     ))
+                await ctx.message.delete()
             else:
                 LOGGER.warning(f"Unable to find the `{name}` Chamber.")
                 await ctx.send(f"Unable to find the `{name}` Chamber.")
