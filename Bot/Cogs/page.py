@@ -43,15 +43,15 @@ class PageCog(commands.Cog, name='Registry Pages'):
         with db_session:
             found = []
             for registry in registries:
-                found.extend(*registry.select(lambda x: name.lower() == x.page.lower())
+                found.extend(registry.select(lambda x: name.lower() == x.page.lower())
                              .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
                 for registry in registries:
-                    found.extend(*registry.select(lambda x: name.lower() in x.page.lower())
+                    found.extend(registry.select(lambda x: name.lower() in x.page.lower())
                                  .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
                 for registry in registries:
-                    found.extend(*registry.select(lambda x: x.page.lower() in name.lower())
+                    found.extend(registry.select(lambda x: x.page.lower() in name.lower())
                                  .order_by(registry.family, registry.page, registry.name)[:])
             if found:
                 items = {}
