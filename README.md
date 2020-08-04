@@ -5,7 +5,7 @@
 [![Issues](https://img.shields.io/github/issues/Macro303/The-Pensieve.svg?style=flat-square)](https://github.com/Macro303/The-Pensieve/issues)
 [![Contributors](https://img.shields.io/github/contributors/Macro303/The-Pensieve.svg?style=flat-square)](https://github.com/Macro303/The-Pensieve/graphs/contributors)
 [![License](https://img.shields.io/github/license/Macro303/The-Pensieve.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Uptime](https://img.shields.io/uptimerobot/status/m785682938-98cc9448a2995b04745f10f9.svg?style=flat-square)](https://uptimerobot.com/dashboard.php)
+[![Uptime](https://img.shields.io/uptimerobot/ratio/14/m785682938-98cc9448a2995b04745f10f9.svg?style=flat-square)](https://uptimerobot.com/dashboard.php)
 
 Simple bot to show stats and other useful information for **Harry Potter: Wizards Unite**.  
 Current Commands _Searches all registries (Exploration, Challenges, Mysteries, Events)_:
