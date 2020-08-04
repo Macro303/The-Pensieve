@@ -67,16 +67,16 @@ class FoundableCog(commands.Cog, name='Registry Foundables'):
         with db_session:
             found = []
             for registry in registries:
-                found = [*registry.select(lambda x: name.lower() == x.name.lower())
-                              .order_by(registry.family, registry.page, registry.name)[:]]
+                found.extend(*registry.select(lambda x: name.lower() == x.name.lower())
+                             .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
                 for registry in registries:
-                    found = [*registry.select(lambda x: name.lower() in x.name.lower())
-                                  .order_by(registry.family, registry.page, registry.name)[:]]
+                    found.extend(*registry.select(lambda x: name.lower() in x.name.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if not found:
                 for registry in registries:
-                    found = [*registry.select(lambda x: x.name.lower() in name.lower())
-                                  .order_by(registry.family, registry.page, registry.name)[:]]
+                    found.extend(*registry.select(lambda x: x.name.lower() in name.lower())
+                                 .order_by(registry.family, registry.page, registry.name)[:])
             if found:
                 for foundable in found:
                     await ctx.send(embed=cog_embed(
