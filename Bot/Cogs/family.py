@@ -43,16 +43,16 @@ class FamilyCog(commands.Cog, name='Registry Families'):
         with db_session:
             found = []
             for registry in registries:
-                found.append(*registry.select(lambda x: name.lower() == x.family.lower())
-                             .order_by(registry.family, registry.page, registry.name)[:])
+                found = [*registry.select(lambda x: name.lower() == x.family.lower())
+                              .order_by(registry.family, registry.page, registry.name)[:]]
             if not found:
                 for registry in registries:
-                    found.append(*registry.select(lambda x: name.lower() in x.family.lower())
-                                 .order_by(registry.family, registry.page, registry.name)[:])
+                    found = [*registry.select(lambda x: name.lower() in x.family.lower())
+                                  .order_by(registry.family, registry.page, registry.name)[:]]
             if not found:
                 for registry in registries:
-                    found.append(*registry.select(lambda x: x.family.lower() in name.lower())
-                                 .order_by(registry.family, registry.page, registry.name)[:])
+                    found = [*registry.select(lambda x: x.family.lower() in name.lower())
+                                  .order_by(registry.family, registry.page, registry.name)[:]]
             if found:
                 items = {}
                 for item in found:
