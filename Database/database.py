@@ -15,6 +15,7 @@ class Threat(Enum):
     LOW = auto(), (15, 25, 38, 55), 'DDDDDD'
     MEDIUM = auto(), (12, 20, 30, 45), 'FFD700'
     HIGH = auto(), (9, 15, 22, 30), 'FF8C00'
+    VERY_HIGH = auto(), (9, 15, 22, 30), 'FF8C00'
     SEVERE = auto(), (5, 10, 13, 18), 'FF4500'
     EMERGENCY = auto(), (3, 5, 7, 10), 'FF6347'
 
@@ -26,14 +27,14 @@ class Threat(Enum):
         return member
 
     def __int__(self):
-        return self.value
+        return self.value.replace('_', ' ')
 
     @classmethod
     def find_by_name(cls, name: Opt[str]):
         if not name:
             return None
         for value, entry in cls.__members__.items():
-            if name.lower() == value.lower():
+            if name.lower() == value.lower().replace('_', ' '):
                 return entry
         if name.lower() == 'blank':
             return Threat.FORTRESS

@@ -38,10 +38,11 @@ class ChamberCog(commands.Cog, name='Fortress Chambers'):
 
     @commands.command(
         name='Chamber',
-        description='Returns an embed with the searched for Chamber/s in the Fortress.',
+        description='Returns details for the searched Chamber/s, including the associated challenge rewards.',
         usage='[Name of Chamber]'
     )
-    async def chamber_search(self, ctx, name: str):
+    async def chamber_search(self, ctx, *chamber_name: str):
+        name = ' '.join(chamber_name)
         LOGGER.info(f"Looking for Chamber: {name}")
         with db_session:
             found = Chamber.select(lambda x: name.lower() == x.name.lower()).order_by(Chamber.name)[:]
