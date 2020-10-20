@@ -25,7 +25,7 @@ _Fields marked as **~~Classified~~** have missing or incomplete information._
 ## Built Using
  - [Python: 3.8.5](https://www.python.org/)
  - [pip: 20.2.4](https://pypi.org/project/pip/)
- - [discord.py: 1.5.0](https://pypi.org/project/discord.py/)
+ - [discord.py: 1.5.1](https://pypi.org/project/discord.py/)
  - [PyYAML: 5.3.1](https://pypi.org/project/PyYAML/)
  - [pony: 0.7.13](https://pypi.org/project/pony/)
 
