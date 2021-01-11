@@ -7,7 +7,7 @@
 [![Visits](https://badges.pufler.dev/visits/Macro303/The-Pensieve?style=flat-square)](https://badges.pufler.dev)
 [![License](https://img.shields.io/github/license/Macro303/The-Pensieve.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-Simple bot to show stats and other useful information for **Harry Potter: Wizards Unite**.  
+Simple bot to show stats and other useful information from **Harry Potter: Wizards Unite**.  
 To add this bot to your server follow this [Link](https://discord.com/api/oauth2/authorize?client_id=723013744808165438&permissions=67464256&scope=bot)
 
 ## Commands
