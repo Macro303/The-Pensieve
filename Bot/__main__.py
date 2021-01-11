@@ -28,4 +28,7 @@ async def on_command_error(ctx, error):
 
 if __name__ == "__main__":
     init_logger('The-Pensieve_Bot')
-    bot.run(CONFIG['Token'], bot=True, reconnect=True)
+    if CONFIG['Token']:
+        bot.run(CONFIG['Token'], bot=True, reconnect=True)
+    else:
+        LOGGER.critical('Missing your Discord `Token`, update the config.yaml to continue')

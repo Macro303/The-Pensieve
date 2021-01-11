@@ -23,25 +23,25 @@ _Fields marked as **~~Classified~~** have missing or incomplete information._
 | `?help` | | Shows the command menu |
 
 ## Built Using
- - [Python: 3.8.5](https://www.python.org/)
- - [pip: 20.2.4](https://pypi.org/project/pip/)
- - [discord.py: 1.5.1](https://pypi.org/project/discord.py/)
+ - [Python: 3.9.1](https://www.python.org/)
+ - [pip: 20.3.3](https://pypi.org/project/pip/)
+ - [discord.py: 1.6.0](https://pypi.org/project/discord.py/)
  - [PyYAML: 5.3.1](https://pypi.org/project/PyYAML/)
- - [pony: 0.7.13](https://pypi.org/project/pony/)
+ - [pony: 0.7.14](https://pypi.org/project/pony/)
 
 ## Execution
-1. Run the following:
+1. Execute the following to generate the default files:
    ```bash
-   $ pip install -r .\requirements.txt
+   $ pip install -r requirements.txt
    $ python -m Bot
    ```
-2. Stop the script
-3. Update the generated `config.yaml` with your Discord Token and Prefix of choice
-4. Run the following:
+2. Update the generated `config.yaml` with your Discord Token and preferred Prefix
+3. Run the following:
    ```bash
    $ python -m Bot
    ```
 
 ## Socials
+[![Discord | The Bot Playground](https://discord.com/api/v6/guilds/797975024907976705/widget.png?style=banner2)](https://discord.gg/wsbSUYqDRP)
 [![Discord | The Playground](https://discord.com/api/v6/guilds/618581423070117932/widget.png?style=banner2)](https://discord.gg/nqGMeGg)
  - Wizards Unite - Wellington [Discord Invite](https://discord.gg/dy3ZhkT)
